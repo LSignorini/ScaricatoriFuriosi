@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Template.Services.Shared
 {
@@ -10,7 +8,8 @@ namespace Template.Services.Shared
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid CF { get; set; }
+        public Guid Id { get; set; }
+        public string CF { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Ruolo { get; set; }

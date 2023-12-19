@@ -1,8 +1,8 @@
-﻿@model Template.Web.Areas.Example.Users.EditViewModel
+﻿@model Template.Web.Areas.Example.Navi.EditViewModel
 @{
     if (Model.Id != null)
     {
-        ViewData["Title"] = "Utente - " + Model.Email;
+        ViewData["Title"] = "Utente - " + Model.Nome;
     }
     else
     {
@@ -33,9 +33,6 @@
                     <button class="dropdown-item text-danger" type="button" onclick="document.getElementById('delete-form').submit();">
                         <i class="fa-solid fa-trash"></i>&nbsp;Elimina
                     </button>
-                    <form hidden autocomplete="off" id="delete-form" method="post" action="@Url.Action(MVC.Example.Users.Delete())">
-                        <input type="hidden" asp-for="Id" />
-                    </form>
                 </div>
             </div>
         }
@@ -47,38 +44,24 @@
     <div class="container-lg">
         <div class="row">
             <div class="col-12">
-                <form autocomplete="off" method="post" class="onit-form-sm" action="@Url.Action(MVC.Example.Users.Edit())" id="edit-form">
-                    <!-- Enables form submit on Enter -->
-                    <input id="edit-form-submitter" class="d-none" type="submit" />
-                    <fieldset class="pb-3">
-                        <legend class="sticky-top">Infomazioni generali</legend>
+                <!-- Enables form submit on Enter -->
+                <input id="edit-form-submitter" class="d-none" type="submit" />
+                <fieldset class="pb-3">
+                    <legend class="sticky-top">Infomazioni generali</legend>
 
-                        <div class="row">
-                            <div class="form-group col-md-6 col-lg-8 col-xl-6">
-                                <label asp-for="Email"></label>
-                                <input class="form-control form-control-sm" asp-for="Email">
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-8 col-xl-6">
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-3 col-lg-4 col-xl-6">
-                                <label asp-for="FirstName"></label>
-                                <input class="form-control form-control-sm" asp-for="FirstName">
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-6 col-lg-4 col-xl-6">
-                                <label asp-for="LastName"></label>
-                                <input class="form-control form-control-sm" asp-for="LastName">
-                                <span asp-validation-for="LastName" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-md-6 col-lg-4 col-xl-6">
-                                <label asp-for="NickName"></label>
-                                <input class="form-control form-control-sm" asp-for="NickName">
-                                <span asp-validation-for="NickName" class="text-danger"></span>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3 col-lg-4 col-xl-6">
                         </div>
-                    </fieldset>
-                </form>
+                        <div class="form-group col-md-6 col-lg-4 col-xl-6">
+                        </div>
+                        <div class="form-group col-md-6 col-lg-4 col-xl-6">
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
     </div>
@@ -97,7 +80,7 @@
 </div>
 @section scripts{
     <script src="/js/bundle-vue.js" asp-append-version="true"></script>
-    <script src="~/Areas/Example/Users/Edit.js" asp-append-version="true"></script>
+    <script src="~/Areas/Example/Navi/Edit.js" asp-append-version="true"></script>
 
     <script src="~/node_modules/@@microsoft/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
     <script src="~/js/signalRConnectionManager.js" asp-append-version="true"></script>
@@ -111,7 +94,7 @@
         signalRManager.registerEvents();
         signalRManager.startConnection();
 
-        var editModel = new Example.Users.editVueModel(signalRManager.connection, JSON.parse(document.getElementById("Seed_JSON").innerText));
+        var editModel = new Example.Navi.editVueModel(signalRManager.connection, JSON.parse(document.getElementById("Seed_JSON").innerText));
 
         var vueModel = new Vue({
             el: '#pageId',

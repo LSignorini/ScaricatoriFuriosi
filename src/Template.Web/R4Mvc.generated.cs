@@ -54,14 +54,10 @@ namespace R4Mvc
             {
                 public readonly string _Layout = "_Layout";
                 public readonly string _LayoutHtml = "_LayoutHtml";
-                public readonly string _PagingPartial = "_PagingPartial";
-                public readonly string _PagingPartialFilter = "_PagingPartialFilter";
             }
 
             public readonly string _Layout = "~/Views/Shared/_Layout.cshtml";
             public readonly string _LayoutHtml = "~/Views/Shared/_LayoutHtml.cshtml";
-            public readonly string _PagingPartial = "~/Views/Shared/_PagingPartial.cshtml";
-            public readonly string _PagingPartialFilter = "~/Views/Shared/_PagingPartialFilter.cshtml";
         }
 
         static readonly ViewsClass s_Views = new ViewsClass();
@@ -72,7 +68,8 @@ namespace R4Mvc
     public partial class ExampleAreaClass
     {
         public readonly string Name = "Example";
-        public readonly Template.Web.Areas.Example.Users.UsersController Users = new Template.Web.Areas.Example.Users.R4MVC_UsersController();
+        public readonly Template.Web.Areas.Example.Dipendenti.DipendentiController Dipendenti = new Template.Web.Areas.Example.Dipendenti.R4MVC_DipendentiController();
+        public readonly Template.Web.Areas.Example.Navi.NaviController Navi = new Template.Web.Areas.Example.Navi.R4MVC_NaviController();
     }
 }
 

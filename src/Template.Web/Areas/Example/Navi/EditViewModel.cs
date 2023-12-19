@@ -12,6 +12,7 @@ namespace Template.Web.Areas.Example.Navi
         {
         }
 
+        public Guid? Id { get; set; }
         [Display(Name = "Nome")]
         public string Nome { get; set; }
         [Display(Name = "Cognome")]
@@ -31,6 +32,7 @@ namespace Template.Web.Areas.Example.Navi
         {
             if (naveDetailDTO != null)
             {
+                Id = naveDetailDTO.Id;
                 Nome = naveDetailDTO.Nome;
                 NomeCliente = naveDetailDTO.NomeCliente;
                 Arrivo = naveDetailDTO.Arrivo;

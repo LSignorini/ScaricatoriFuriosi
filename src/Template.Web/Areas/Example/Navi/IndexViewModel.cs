@@ -1,20 +1,15 @@
-﻿using Template.Web.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Template.Services.Shared;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Template.Web.Areas.Example.Navi
 {
-    public class IndexViewModel : PagingViewModel
+    public class IndexViewModel
     {
         public IndexViewModel()
         {
-            OrderBy = nameof(NaveIndexViewModel.Nome);
-            OrderByDescending = false;
             Navi = Array.Empty<NaveIndexViewModel>();
         }
 
@@ -26,33 +21,14 @@ namespace Template.Web.Areas.Example.Navi
         internal void SetNavi(NaviIndexDTO naviIndexDTO)
         {
             Navi = naviIndexDTO.Navi.Select(x => new NaveIndexViewModel(x)).ToArray();
-            TotalItems = naviIndexDTO.Count;
         }
 
         public NaviIndexQuery ToNaviIndexQuery()
         {
             return new NaviIndexQuery
             {
-                Filter = Filter,
-                Paging = new Template.Infrastructure.Paging
-                {
-                    OrderBy = OrderBy,
-                    OrderByDescending = OrderByDescending,
-                    Page = Page,
-                    PageSize = PageSize
-                }
+                Filter = Filter
             };
-        }
-
-        public override IActionResult GetRoute() => MVC.Example.Navi.Index(this).GetAwaiter().GetResult();
-
-        public string OrderbyUrl<TProperty>(IUrlHelper url, System.Linq.Expressions.Expression<Func<NaveIndexViewModel, TProperty>> expression) => base.OrderbyUrl(url, expression);
-
-        public string OrderbyCss<TProperty>(HttpContext context, System.Linq.Expressions.Expression<Func<NaveIndexViewModel, TProperty>> expression) => base.OrderbyCss(context, expression);
-
-        public string ToJson()
-        {
-            return JsonSerializer.ToJsonCamelCase(this);
         }
     }
 

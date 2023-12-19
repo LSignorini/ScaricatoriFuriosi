@@ -8,7 +8,8 @@ namespace Template.Services.Shared
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Nome { get; set; }
+        public Guid Id { get; set; }
+        public string Nome { get; set; }
         public string NomeCliente { get; set; }
         public DateTime Arrivo { get; set; }
         public DateTime Partenza { get; set; }

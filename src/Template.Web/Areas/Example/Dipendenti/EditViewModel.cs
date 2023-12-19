@@ -11,16 +11,21 @@ namespace Template.Web.Areas.Example.Dipendenti
         public EditViewModel()
         {
         }
-
         public Guid? Id { get; set; }
-        public string Email { get; set; }
-
+        [Display(Name = "Codice Fiscale")]
+        public string CF { get; set; }
         [Display(Name = "Nome")]
-        public string FirstName { get; set; }
+        public string Nome { get; set; }
         [Display(Name = "Cognome")]
-        public string LastName { get; set; }
-        [Display(Name = "Nickname")]
-        public string NickName { get; set; }
+        public string Cognome { get; set; }
+        [Display(Name = "Ruolo")]
+        public string Ruolo { get; set; }
+        [Display(Name = "Data di nascita")]
+        public DateTime DataNascita { get; set; }
+        [Display(Name = "Visita medica")]
+        public DateTime VisitaMedica { get; set; }
+        [Display(Name = "Patente")]
+        public DateTime Patente { get; set; }
 
         public string ToJson()
         {
@@ -32,22 +37,23 @@ namespace Template.Web.Areas.Example.Dipendenti
             if (dipendenteDetailDTO != null)
             {
                 Id = dipendenteDetailDTO.Id;
-                Email = dipendenteDetailDTO.Email;
-                FirstName = dipendenteDetailDTO.FirstName;
-                LastName = dipendenteDetailDTO.LastName;
-                NickName = dipendenteDetailDTO.NickName;
+                CF = dipendenteDetailDTO.CF;
+                Nome = dipendenteDetailDTO.Nome;
+                Cognome = dipendenteDetailDTO.Cognome;
+                Ruolo = dipendenteDetailDTO.Ruolo;
+                DataNascita = dipendenteDetailDTO.DataNascita;
+                VisitaMedica = dipendenteDetailDTO.VisitaMedica;
+                Patente = dipendenteDetailDTO.Patente;
             }
         }
 
-        public AddOrUpdateDipendenteCommand ToAddOrUpdateDipendenteCommand()
+        public UpdateDipendentiCommand ToUpdateDipendenteCommand()
         {
-            return new AddOrUpdateDipendenteCommand
+            return new UpdateDipendentiCommand
             {
                 Id = Id,
-                Email = Email,
-                FirstName = FirstName,
-                LastName = LastName,
-                NickName = NickName
+                VisitaMedica = VisitaMedica,
+                Patente = Patente
             };
         }
     }

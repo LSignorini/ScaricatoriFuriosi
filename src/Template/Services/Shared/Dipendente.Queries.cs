@@ -10,7 +10,7 @@ namespace Template.Services.Shared
 {
     public class DipendentiNomeSelectQuery
     {
-        public Guid CFCurrentDipendente { get; set; }
+        public Guid IdCurrentDipendente { get; set; }
         public string Filter { get; set; }
     }
 
@@ -21,18 +21,18 @@ namespace Template.Services.Shared
 
         public class DipendenteNome
         {
-            public Guid CF { get; set; }
+            public Guid Id { get; set; }
             public string Nome { get; set; }
         }
         public class DipendenteRuolo
         {
-            public Guid CF { get; set; }
+            public Guid Id { get; set; }
             public string Ruolo { get; set; }
         }
     }
     public class DipendentiCognomeSelectQuery
     {
-        public Guid CFCurrentDipendente { get; set; }
+        public Guid IdCurrentDipendente { get; set; }
         public string Filter { get; set; }
     }
     public class DipendentiCognomeSelectDTO
@@ -42,13 +42,13 @@ namespace Template.Services.Shared
 
         public class DipendenteCognome
         {
-            public Guid CF { get; set; }
+            public Guid Id { get; set; }
             public string Cognome { get; set; }
         }
     }
     public class DipendentiRuoloSelectQuery
     {
-        public Guid CFCurrentDipendente { get; set; }
+        public Guid IdCurrentDipendente { get; set; }
         public string Filter { get; set; }
     }
     public class DipendentiRuoloSelectDTO
@@ -58,7 +58,7 @@ namespace Template.Services.Shared
 
         public class DipendenteRuolo
         {
-            public Guid CF { get; set; }
+            public Guid Id { get; set; }
             public string Ruolo { get; set; }
         }
     }
@@ -67,12 +67,12 @@ namespace Template.Services.Shared
     {
         public Guid IdCurrentDipendente { get; set; }
         public string Filter { get; set; }
+        //public Paging Paging { get; set; }
     }
 
     public class DipendentiIndexDTO
     {
         public IEnumerable<Dipendente> Dipendenti { get; set; }
-        public int Count { get; set; }
 
         public class Dipendente
         {
@@ -86,12 +86,13 @@ namespace Template.Services.Shared
 
     public class DipendenteDetailQuery
     {
-        public Guid CF { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class DipendenteDetailDTO
     {
-        public Guid CF { get; set; }
+        public Guid Id { get; set; }
+        public string CF { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Ruolo { get; set; }
@@ -110,7 +111,7 @@ namespace Template.Services.Shared
         public async Task<DipendentiNomeSelectDTO> Query(DipendentiNomeSelectQuery qry)
         {
             var queryable = _dbContext.Dipendenti
-                .Where(x => x.CF != qry.CFCurrentDipendente);
+                .Where(x => x.Id != qry.IdCurrentDipendente);
 
             if (string.IsNullOrWhiteSpace(qry.Filter) == false)
             {
@@ -122,7 +123,7 @@ namespace Template.Services.Shared
                 Dipendenti = await queryable
                 .Select(x => new DipendentiNomeSelectDTO.DipendenteNome
                 {
-                    CF = x.CF,
+                    Id = x.Id,
                     Nome = x.Nome
                 })
                 .ToArrayAsync(),
@@ -138,7 +139,7 @@ namespace Template.Services.Shared
         public async Task<DipendentiCognomeSelectDTO> Query(DipendentiCognomeSelectQuery qry)
         {
             var queryable = _dbContext.Dipendenti
-                .Where(x => x.CF != qry.CFCurrentDipendente);
+                .Where(x => x.Id != qry.IdCurrentDipendente);
 
             if (string.IsNullOrWhiteSpace(qry.Filter) == false)
             {
@@ -150,7 +151,7 @@ namespace Template.Services.Shared
                 Dipendenti = await queryable
                 .Select(x => new DipendentiCognomeSelectDTO.DipendenteCognome
                 {
-                    CF = x.CF,
+                    Id = x.Id,
                     Cognome = x.Cognome
                 })
                 .ToArrayAsync(),
@@ -166,7 +167,7 @@ namespace Template.Services.Shared
         public async Task<DipendentiRuoloSelectDTO> Query(DipendentiRuoloSelectQuery qry)
         {
             var queryable = _dbContext.Dipendenti
-                .Where(x => x.CF != qry.CFCurrentDipendente);
+                .Where(x => x.Id != qry.IdCurrentDipendente);
 
             if (string.IsNullOrWhiteSpace(qry.Filter) == false)
             {
@@ -178,7 +179,7 @@ namespace Template.Services.Shared
                 Dipendenti = await queryable
                 .Select(x => new DipendentiRuoloSelectDTO.DipendenteRuolo
                 {
-                    CF = x.CF,
+                    Id = x.Id,
                     Ruolo = x.Ruolo
                 })
                 .ToArrayAsync(),
@@ -198,6 +199,7 @@ namespace Template.Services.Shared
             return new DipendentiIndexDTO
             {
                 Dipendenti = await queryable
+                    .OrderBy(x => x.Nome).ThenBy(x=> x.Cognome)
                     .Select(x => new DipendentiIndexDTO.Dipendente
                     {
                         Nome = x.Nome,
@@ -207,7 +209,6 @@ namespace Template.Services.Shared
                         Patente = x.Patente
                     })
                     .ToArrayAsync(),
-                Count = await queryable.CountAsync()
             };
         }
 
@@ -219,9 +220,10 @@ namespace Template.Services.Shared
         public async Task<DipendenteDetailDTO> Query(DipendenteDetailQuery qry)
         {
             return await _dbContext.Dipendenti
-                .Where(x => x.CF == qry.CF)
+                .Where(x => x.Id == qry.Id)
                 .Select(x => new DipendenteDetailDTO
                 {
+                    Id = x.Id,
                     CF = x.CF,
                     Nome = x.Nome,
                     Cognome = x.Cognome,

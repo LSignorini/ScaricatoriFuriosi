@@ -9,7 +9,7 @@ namespace Template.Services.Shared
 {
     public class NaviSelectQuery
     {
-        public Guid NomeCurrentNave { get; set; }
+        public Guid IdCurrentNave { get; set; }
         public string Filter { get; set; }
     }
 
@@ -20,7 +20,8 @@ namespace Template.Services.Shared
 
         public class Nave
         {
-            public Guid Nome { get; set; }
+            public Guid Id { get; set; }
+            public string Nome { get; set; }
             public string NomeCliente { get; set; }
             public DateTime Arrivo { get; set; }
             public DateTime Partenza { get; set; }
@@ -40,7 +41,8 @@ namespace Template.Services.Shared
 
         public class Nave
         {
-            public Guid Nome { get; set; }
+            public Guid Id { get; set; }
+            public string Nome { get; set; }
             public string NomeCliente { get; set; }
             public DateTime Arrivo { get; set; }
             public DateTime Partenza { get; set; }
@@ -50,8 +52,6 @@ namespace Template.Services.Shared
     {
         public string NomeCurrentNave { get; set; }
         public string Filter { get; set; }
-
-        public Paging Paging { get; set; }
     }
 
     public class NaviIndexDTO
@@ -61,7 +61,8 @@ namespace Template.Services.Shared
 
         public class Nave
         {
-            public Guid Nome { get; set; }
+            public Guid Id { get; set; }
+            public string Nome { get; set; }
             public string NomeCliente { get; set; }
             public DateTime Arrivo { get; set; }
             public DateTime Partenza { get; set; }
@@ -72,12 +73,13 @@ namespace Template.Services.Shared
 
     public class NaveDetailQuery
     {
-        public Guid Nome { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class NaveDetailDTO
     {
-        public Guid Nome { get; set; }
+        public Guid Id { get; set; }
+        public string Nome { get; set; }
         public string NomeCliente { get; set; }
         public DateTime Arrivo { get; set; }
         public DateTime Partenza { get; set; }
@@ -95,13 +97,14 @@ namespace Template.Services.Shared
         public async Task<NaviSelectDTO> Query(NaviSelectQuery qry)
         {
             var queryable = _dbContext.Navi
-                .Where(x => x.Nome != qry.NomeCurrentNave);
+                .Where(x => x.Id != qry.IdCurrentNave);
 
             return new NaviSelectDTO
             {
                 Navi = await queryable
                 .Select(x => new NaviSelectDTO.Nave
                 {
+                    Id = x.Id,
                     Nome = x.Nome,
                     NomeCliente = x.NomeCliente,
                     Arrivo = x.Arrivo,
@@ -151,6 +154,7 @@ namespace Template.Services.Shared
                 Navi = await queryable
                     .Select(x => new NaviIndexDTO.Nave
                     {
+                        Id = x.Id,
                         Nome = x.Nome,
                         NomeCliente = x.NomeCliente,
                         Arrivo = x.Arrivo,
@@ -169,9 +173,10 @@ namespace Template.Services.Shared
         public async Task<NaveDetailDTO> Query(NaveDetailQuery qry)
         {
             return await _dbContext.Navi
-                .Where(x => x.Nome == qry.Nome)
+                .Where(x => x.Id == qry.Id)
                 .Select(x => new NaveDetailDTO
                 {
+                    Id = x.Id,
                     Nome = x.Nome,
                     NomeCliente = x.NomeCliente,
                     Arrivo = x.Arrivo,

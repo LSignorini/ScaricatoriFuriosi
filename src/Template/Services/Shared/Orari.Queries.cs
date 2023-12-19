@@ -8,7 +8,7 @@ namespace Template.Services.Shared
 {
     public class NomeNaveDetailQuery
     {
-        public Guid Nome { get; set; }
+        public Guid Id { get; set; }
     }
     public class OrariNaveSelectDTO
     {
@@ -16,11 +16,12 @@ namespace Template.Services.Shared
 
         public class Orario
         {
+            public Guid Id { get; set; }
             public string Nome { get; set; }
             public string Cognome { get; set; }
             public string Ruolo { get; set; }
-            public Guid Inizio { get; set; }
-            public Guid Fine { get; set; }
+            public DateOnly Giorno { get; set; }
+            public TimeOnly Inizio { get; set; }
         }
     }
     
@@ -36,7 +37,7 @@ namespace Template.Services.Shared
 
     public class NomeDipendenteDetailQuery
     {
-        public Guid CF { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class OrariDipendenteSelectDTO
@@ -45,9 +46,11 @@ namespace Template.Services.Shared
 
         public class Orario
         {
-            public Guid NomeNave { get; set; }
-            public Guid Inizio { get; set; }
-            public Guid Fine { get; set; }
+            public Guid Id { get; set; }
+            public string NomeNave { get; set; }
+            public DateOnly Giorno { get; set; }
+            public TimeOnly Inizio { get; set; }
+            public TimeOnly Fine { get; set; }
         }
     }
 
@@ -61,7 +64,7 @@ namespace Template.Services.Shared
         public async Task<OrariNaveSelectDTO> Query(NomeNaveDetailQuery qry)
         {
             var queryable = _dbContext.Orari
-                .Where(o => o.NomeNave == qry.Nome); // Filtra per il nome della nave
+                .Where(o => o.Id == qry.Id); // Filtra per id della nave
 
             var result = await queryable
                 .Join(
@@ -75,11 +78,12 @@ namespace Template.Services.Shared
                     })
                 .Select(x => new OrariNaveSelectDTO.Orario
                 {
+                    Id = x.Orario.Id,
                     Nome = x.Dipendente.Nome,
                     Cognome = x.Dipendente.Cognome,
                     Ruolo = x.Dipendente.Ruolo,
-                    Inizio = x.Orario.Inizio,
-                    Fine = x.Orario.Fine
+                    Giorno = x.Orario.Giorno,
+                    Inizio = x.Orario.Inizio
                 })
                 .ToArrayAsync();
 
@@ -90,7 +94,7 @@ namespace Template.Services.Shared
         }
 
         /// <summary>
-        /// Returns workers available for a given\ day
+        /// Returns workers available for a given day
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>
@@ -100,7 +104,7 @@ namespace Template.Services.Shared
                 .CountAsync();
 
             var dipendentiOccupati = await _dbContext.Orari
-                .Where(x => x.Fine.Equals(qry.Giorno))
+                .Where(x => x.Giorno.Equals(qry.Giorno))
                 .Distinct()
                 .CountAsync();
 
@@ -118,12 +122,13 @@ namespace Template.Services.Shared
         public async Task<OrariDipendenteSelectDTO> Query(NomeDipendenteDetailQuery qry)
         {
             var queryable = _dbContext.Orari
-                .Where(o => o.CF == qry.CF); // Filtra per il nome della nave
+                .Where(o => o.Id == qry.Id); // Filtra per id del dipendente
 
             var result = await queryable
                 .Select(x => new OrariDipendenteSelectDTO.Orario
                 {
                     NomeNave = x.NomeNave,
+                    Giorno = x.Giorno,
                     Inizio = x.Inizio,
                     Fine = x.Fine
                 })

@@ -1,20 +1,15 @@
-﻿using Template.Web.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Template.Services.Shared;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Template.Web.Areas.Example.Dipendenti
 {
-    public class IndexViewModel : PagingViewModel
+    public class IndexViewModel 
     {
         public IndexViewModel()
         {
-            OrderBy = nameof(DipendenteIndexViewModel.Email);
-            OrderByDescending = false;
             Dipendenti = Array.Empty<DipendenteIndexViewModel>();
         }
 
@@ -26,33 +21,14 @@ namespace Template.Web.Areas.Example.Dipendenti
         internal void SetDipendenti(DipendentiIndexDTO dipendentiIndexDTO)
         {
             Dipendenti = dipendentiIndexDTO.Dipendenti.Select(x => new DipendenteIndexViewModel(x)).ToArray();
-            TotalItems = dipendentiIndexDTO.Count;
         }
 
         public DipendentiIndexQuery ToDipendentiIndexQuery()
         {
             return new DipendentiIndexQuery
             {
-                Filter = Filter,
-                Paging = new Template.Infrastructure.Paging
-                {
-                    OrderBy = OrderBy,
-                    OrderByDescending = OrderByDescending,
-                    Page = Page,
-                    PageSize = PageSize
-                }
+                Filter = Filter
             };
-        }
-
-        public override IActionResult GetRoute() => MVC.Example.Dipendenti.Index(this).GetAwaiter().GetResult();
-
-        public string OrderbyUrl<TProperty>(IUrlHelper url, System.Linq.Expressions.Expression<Func<DipendenteIndexViewModel, TProperty>> expression) => base.OrderbyUrl(url, expression);
-
-        public string OrderbyCss<TProperty>(HttpContext context, System.Linq.Expressions.Expression<Func<DipendenteIndexViewModel, TProperty>> expression) => base.OrderbyCss(context, expression);
-
-        public string ToJson()
-        {
-            return JsonSerializer.ToJsonCamelCase(this);
         }
     }
 
@@ -60,15 +36,17 @@ namespace Template.Web.Areas.Example.Dipendenti
     {
         public DipendenteIndexViewModel(DipendentiIndexDTO.Dipendente dipendenteIndexDTO)
         {
-            this.Id = dipendenteIndexDTO.Id;
-            this.Email = dipendenteIndexDTO.Email;
-            this.FirstName = dipendenteIndexDTO.FirstName;
-            this.LastName = dipendenteIndexDTO.LastName;
+            this.Nome = dipendenteIndexDTO.Nome;
+            this.Cognome = dipendenteIndexDTO.Cognome;
+            this.Ruolo = dipendenteIndexDTO.Ruolo;
         }
 
         public Guid Id { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Nome { get; set; }
+        public string Cognome { get; set; }
+        public string Ruolo { get; set; }
+        public DateTime DataNascita { get; set; }
+        public DateTime VisitaMedica { get; set; }
+        public DateTime Patente { get; set; }
     }
 }

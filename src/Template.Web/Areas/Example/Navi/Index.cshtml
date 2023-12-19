@@ -1,18 +1,16 @@
-﻿@inject IHtmlLocalizer<Template.Web.Areas.Example.Users.IndexViewModel> ModelLocalizer
-@model Template.Web.Areas.Example.Users.IndexViewModel
+﻿@inject IHtmlLocalizer<Template.Web.Areas.Example.Navi.IndexViewModel> ModelLocalizer
+@model Template.Web.Areas.Example.Navi.IndexViewModel
 @{
     ViewData["Title"] = "Utenti";
 }
 @section pageTitle{
     <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-title">
         <a class="navbar-brand">
-            @ViewData["Title"] <small class="text-muted" title="numero di elementi individuati con i filtri attuali">(@Model.TotalItems.ToString("N0"))</small>
+            @ViewData["Title"] <small class="text-muted" title="numero di elementi individuati con i filtri attuali">)</small>
         </a>
         <ul class="navbar-nav flex-wrap ms-auto">
             <li>
-                <a class="btn btn-light ms-2" href="@Url.Action(MVC.Example.Users.New())" title="Inserisci un nuovo elemento">
-                    <i class="fa-solid fa-plus"></i>&nbsp;Nuovo
-                </a>
+                <i class="fa-solid fa-plus"></i>&nbsp;Nuovo
             </li>
         </ul>
     </nav>
@@ -39,10 +37,6 @@
                         Azzera ricerca
                     </button>
                 </div>
-
-                <div class="col-sm-auto ms-auto mt-2 pt-2 d-flex flex-row">
-                    <partial name="@MVC.Shared.Views._PagingPartialFilter" model="Model" />
-                </div>
             </div>
         </form>
     </nav>
@@ -55,24 +49,24 @@
                     <thead>
                         <tr>
                             <th>
-                                <a href="javascript:utilities.navigateUrlWithoutHystory('@(Model.OrderbyUrl(Url, r => r.Email))')">
-                                    @ModelLocalizer["Email"]&nbsp;<span class="@Model.OrderbyCss(Context, r => r.Email)"></span>
+                                <a href="#">
+                                    @ModelLocalizer["Email"]&nbsp;
                                 </a>
                             </th>
                             <th>
-                                <a href="javascript:utilities.navigateUrlWithoutHystory('@(Model.OrderbyUrl(Url, r => r.FirstName))')">
-                                    @ModelLocalizer["Nome"]&nbsp;<span class="@Model.OrderbyCss(Context, r => r.FirstName)"></span>
+                                <a href="#">
+                                    @ModelLocalizer["Nome"]&nbsp;
                                 </a>
                             </th>
                             <th>
-                                <a href="javascript:utilities.navigateUrlWithoutHystory('@(Model.OrderbyUrl(Url, r => r.LastName))')">
-                                    @ModelLocalizer["Cognome"]&nbsp;<span class="@Model.OrderbyCss(Context, r => r.LastName)"></span>
+                                <a href="#">
+                                    @ModelLocalizer["Cognome"]&nbsp;
                                 </a>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.Users.Any() == false)
+                        @if (Model.Navi.Any() == false)
                         {
                             <tr>
                                 <td colspan="3">Nessun elemento trovato con i filtri correnti</td>
@@ -80,31 +74,22 @@
                         }
                         else
                         {
-                            @foreach (var user in Model.Users)
+                            @foreach (var user in Model.Navi)
                             {
-                                <tr class="onit-table-row-link" onclick="javascript:utilities.navigateUrlExcludeOnitNotNavigate('@Url.Action(MVC.Example.Users.Edit(user.Id))')" title="@ModelLocalizer["Modifica utente"] @user.Email">
+                                <tr class="onit-table-row-link" onclick="#" title="@ModelLocalizer["Modifica utente"] @user.Nome">
                                     <td scope="row" class="text-nowrap">
-                                        @user.Email
+                                        @user.Nome
                                     </td>
                                     <td class="text-nowrap">
-                                        @user.FirstName
+                                        @user.NomeCliente
                                     </td>
                                     <td class="text-nowrap">
-                                        @user.LastName
+                                        @user.Arrivo
                                     </td>
                                 </tr>
                             }
                         }
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3">
-                                <nav class="navbar navbar-expand justify-content-md-center">
-                                    <ul class="navbar-nav flex-wrap"><partial name="@MVC.Shared.Views._PagingPartial" model="Model" /></ul>
-                                </nav>
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

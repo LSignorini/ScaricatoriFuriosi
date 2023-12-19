@@ -42,15 +42,15 @@ namespace Template.Web.Areas.Example.Dipendenti
         }
 
         [HttpGet]
-        public virtual async Task<IActionResult> Edit(Guid? id)
+        public virtual async Task<IActionResult> Edit(Guid? Id)
         {
             var model = new EditViewModel();
 
-            if (id.HasValue)
+            if (Id.HasValue)
             {
                 model.SetDipendente(await _sharedService.Query(new DipendenteDetailQuery
                 {
-                    Id = id.Value,
+                    Id = Id.Value,
                 }));
             }
 
@@ -66,15 +66,15 @@ namespace Template.Web.Areas.Example.Dipendenti
             {
                 try
                 {
-                    model.Id = await _sharedService.Handle(model.ToAddOrUpdateDipendenteCommand());
+                    model.Id = await _sharedService.Handle(model.ToUpdateDipendenteCommand());
 
                     Alerts.AddSuccess(this, "Informazioni aggiornate");
 
                     // Esempio lancio di un evento SignalR
                     await _publisher.Publish(new NewMessageEvent
                     {
-                        IdGroup = model.Id.Value,
-                        IdUser = model.Id.Value,
+                        IdGroup =(Guid) model.Id,
+                        IdUser =(Guid) model.Id,
                         IdMessage = Guid.NewGuid()
                     });
                 }

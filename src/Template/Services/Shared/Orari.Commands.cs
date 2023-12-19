@@ -6,10 +6,12 @@ namespace Template.Services.Shared
 {
     public class AddOrRemoveOrariCommand
     {
-        public Guid CF { get; set; }
-        public Guid NomeNave { get; set; }
-        public Guid Inizio { get; set; }
-        public Guid Fine { get; set; }
+        public Guid Id { get; set; }
+        public string CF { get; set; }
+        public string NomeNave { get; set; }
+        public DateOnly Giorno { get; set; }
+        public TimeOnly Inizio { get; set; }
+        public TimeOnly Fine { get; set; }
     }
 
     public partial class SharedService
@@ -17,7 +19,7 @@ namespace Template.Services.Shared
         public async void Handle(AddOrRemoveOrariCommand cmd)
         {
             var turno = await _dbContext.Orari
-                .Where(x => x.CF == cmd.CF && x.NomeNave == cmd.NomeNave && x.Inizio == cmd.Inizio && x.Fine == cmd.Fine)
+                .Where(x => x.CF == cmd.CF && x.NomeNave == cmd.NomeNave && x.Giorno == cmd.Giorno)
                 .FirstOrDefaultAsync();
 
             if (turno == null)
@@ -26,6 +28,7 @@ namespace Template.Services.Shared
                 {
                     CF = cmd.CF,
                     NomeNave = cmd.NomeNave,
+                    Giorno = cmd.Giorno,
                     Inizio = cmd.Inizio,
                     Fine = cmd.Fine
                 };

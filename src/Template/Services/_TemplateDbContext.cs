@@ -13,6 +13,9 @@ namespace Template.Services
         public TemplateDbContext(DbContextOptions<TemplateDbContext> options) : base(options)
         {
             DataGenerator.InitializeUsers(this);
+            DataGenerator.InitializeDipendenti(this);
+            DataGenerator.InitializeNavi(this);
+            DataGenerator.InitializeOrari(this);
         }
 
         public DbSet<User> Users { get; set; }

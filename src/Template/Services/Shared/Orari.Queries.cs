@@ -54,6 +54,13 @@ namespace Template.Services.Shared
         }
     }
 
+    public class OrariIndexQuery
+    {
+        public Guid IdNave { get; set; }
+        public DateOnly Giorno { get; set; }
+        public string Filter { get; set; }
+    }
+
     public partial class SharedService
     {
         /// <summary>
@@ -69,8 +76,8 @@ namespace Template.Services.Shared
             var result = await queryable
                 .Join(
                     _dbContext.Dipendenti,
-                    orari => orari.CF,
-                    dipendente => dipendente.CF,
+                    orari => orari.IdDipendente,
+                    dipendente => dipendente.Id,
                     (orari, dipendente) => new
                     {
                         Orario = orari,
@@ -122,21 +129,64 @@ namespace Template.Services.Shared
         public async Task<OrariDipendenteSelectDTO> Query(NomeDipendenteDetailQuery qry)
         {
             var queryable = _dbContext.Orari
-                .Where(o => o.Id == qry.Id); // Filtra per id del dipendente
+                .Where(o => o.IdDipendente == qry.Id); // Filtra per id del dipendente
 
             var result = await queryable
+                .Join(
+                    _dbContext.Navi,
+                    orari => orari.IdNave,
+                    navi => navi.Id,
+                    (orari, navi) => new
+                    {
+                        Orario = orari,
+                        Nave = navi
+                    })
                 .Select(x => new OrariDipendenteSelectDTO.Orario
                 {
-                    NomeNave = x.NomeNave,
-                    Giorno = x.Giorno,
-                    Inizio = x.Inizio,
-                    Fine = x.Fine
+                    NomeNave = x.Nave.Nome,
+                    Giorno = x.Orario.Giorno,
+                    Inizio = x.Orario.Inizio,
+                    Fine = x.Orario.Fine
                 })
                 .ToArrayAsync();
 
             return new OrariDipendenteSelectDTO
             {
                 Orari = result
+            };
+        }
+
+
+        /// <summary>
+        /// Returns schedules for ship name and day
+        /// </summary>
+        /// <param name="qry"></param>
+        /// <returns></returns>
+        public async Task<OrariNaveSelectDTO> Query(OrariIndexQuery qry)
+        {
+            var queryable = _dbContext.Orari
+                .Where(x => x.IdNave == qry.IdNave && x.Giorno == qry.Giorno);
+
+            return new OrariNaveSelectDTO
+            {
+                Orari = await queryable
+                .Join(
+                    _dbContext.Dipendenti,
+                    orari => orari.IdDipendente,
+                    dipendente => dipendente.Id,
+                    (orari, dipendente) => new
+                    {
+                        Orario = orari,
+                        Dipendente = dipendente
+                    })
+                .Select(x => new OrariNaveSelectDTO.Orario
+                {
+                    Nome = x.Dipendente.Nome,
+                    Cognome = x.Dipendente.Cognome,
+                    Ruolo = x.Dipendente.Ruolo,
+                    Inizio = x.Orario.Inizio
+                })
+                .ToArrayAsync()
             };
         }
     }

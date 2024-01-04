@@ -7,7 +7,7 @@ var Example;
                 this.hub = hub;
                 this.model = model;
                 if (this.hub) {
-                    this.hub.on("NewMessage", async (nomeNave, idMessage) => {
+                    this.hub.on("NewMessage", async (Id, idMessage) => {
                         // do stuff with parameters
                     });
                 }

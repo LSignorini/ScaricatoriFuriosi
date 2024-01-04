@@ -9,8 +9,8 @@ namespace Template.Services.Shared
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public string CF { get; set; }
-        public string NomeNave { get; set; }
+        public Guid IdDipendente { get; set; }
+        public Guid IdNave { get; set; }
         public DateOnly Giorno { get; set; }
         public TimeOnly Inizio { get; set; }
         public TimeOnly Fine { get; set; }

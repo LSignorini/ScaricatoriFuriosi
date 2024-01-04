@@ -70,6 +70,7 @@ namespace R4Mvc
         public readonly string Name = "Example";
         public readonly Template.Web.Areas.Example.Dipendenti.DipendentiController Dipendenti = new Template.Web.Areas.Example.Dipendenti.R4MVC_DipendentiController();
         public readonly Template.Web.Areas.Example.Navi.NaviController Navi = new Template.Web.Areas.Example.Navi.R4MVC_NaviController();
+        public readonly Template.Web.Areas.Example.Orari.OrariController Orari = new Template.Web.Areas.Example.Orari.R4MVC_OrariController();
     }
 }
 

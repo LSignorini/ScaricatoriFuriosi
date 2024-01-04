@@ -50,7 +50,6 @@ namespace Template.Services.Shared
     }
     public class NaviIndexQuery
     {
-        public string NomeCurrentNave { get; set; }
         public string Filter { get; set; }
     }
 

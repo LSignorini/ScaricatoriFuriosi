@@ -1,4 +1,4 @@
-declare module Example.Navi.Server {
+declare module Example.Orari.Server {
 	interface editViewModel {
 		nome: string;
 		nomeCliente: string;

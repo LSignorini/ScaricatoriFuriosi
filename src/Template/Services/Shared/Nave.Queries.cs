@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Template.Infrastructure;
 
@@ -84,6 +86,15 @@ namespace Template.Services.Shared
         public DateTime Partenza { get; set; }
         public int Container {  get; set; }
         public int Bancali { get; set; }
+    }
+
+    public class ArriviDTO
+    {
+        public IEnumerable<Arrivo> Arrivi { get; set; }
+        public class Arrivo
+        {
+            public DateTime Data { get; set; }
+        }
     }
 
     public partial class SharedService
@@ -184,6 +195,26 @@ namespace Template.Services.Shared
                     Bancali = x.Bancali
                 })
                 .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Returns a list of all day with an arrive
+        /// </summary>
+        /// <param name="qry"></param>
+        /// <returns></returns>
+        public async Task<ArriviDTO> Query()
+        {
+            var queryable = _dbContext.Navi;
+
+            return new ArriviDTO
+            {
+                Arrivi = await queryable
+                .Select(x => new ArriviDTO.Arrivo
+                {
+                    Data = x.Arrivo
+                })
+                .ToArrayAsync()
+            };
         }
     }
 }

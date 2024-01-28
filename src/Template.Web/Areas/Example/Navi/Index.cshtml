@@ -3,18 +3,6 @@
 @{
     ViewData["Title"] = "Navi";
 }
-@section pageTitle{
-    <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-title">
-        <a class="navbar-brand">
-            @ViewData["Title"] <small class="text-muted" title="numero di elementi individuati con i filtri attuali">()</small>
-        </a>
-        <ul class="navbar-nav flex-wrap ms-auto">
-            <li>
-                <i class="fa-solid fa-plus"></i>&nbsp;Nuovo
-            </li>
-        </ul>
-    </nav>
-}
 @section pageSubtitle{
     <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-subtitle">
         <form method="get" id="annullaRicerca">
@@ -27,7 +15,26 @@
                         <span class="input-group-text"><i class="fa-solid fa-fw fa-magnifying-glass"></i></span>
                         <input asp-for="Filter" class="form-control" />
                     </div>
+                    <div class="dropdown">
+                        <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownmenubutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Tutte
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownmenubutton">
+                            <li class="dropdown-item" onclick="showCuisine(this)">
+                                <span>Tutte</span>
+                            </li>
+                            <li class="dropdown-item" onclick="showCuisine(this)">
+                                <span>In scadenza</span>
+                            </li>
+                        </ul>                
+                        <script>
+                            function showCuisine(item) {
+                                document.getElementById("dropdownmenubutton").innerHTML = item.innerHTML;
+
+                            }
+                        </script>
+                    </div>
                 </div>
+
 
                 <div class="col-sm-auto pt-2 mt-auto">
                     <button class="btn btn-primary" type="submit">
@@ -45,52 +52,37 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
-                <table class="table table-hover table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                <a href="#">
-                                    @ModelLocalizer["Email"]&nbsp;
-                                </a>
-                            </th>
-                            <th>
-                                <a href="#">
-                                    @ModelLocalizer["Nome"]&nbsp;
-                                </a>
-                            </th>
-                            <th>
-                                <a href="#">
-                                    @ModelLocalizer["Cognome"]&nbsp;
-                                </a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Navi.Any() == false)
+                @if (Model.Navi.Any() == false)
+                {
+                    <tr>
+                        <td colspan="3">Nessun elemento trovato con i filtri correnti</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var arrivo in Model.Arrivi)
+                    {
+                        <label>@arrivo.Arrivo</label>
+                        @foreach (var nave in Model.Navi)
                         {
-                            <tr>
-                                <td colspan="3">Nessun elemento trovato con i filtri correnti</td>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var user in Model.Navi)
+                            @if (@nave.Arrivo == @arrivo.Arrivo)
                             {
-                                <tr class="onit-table-row-link" onclick="#" title="@ModelLocalizer["Modifica utente"] @user.Nome">
-                                    <td scope="row" class="text-nowrap">
-                                        @user.Nome
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @user.NomeCliente
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @user.Arrivo
-                                    </td>
-                                </tr>
+                                <button class="card">
+                                    <div class="card-header">
+                                        @nave.Nome
+                                    </div>
+                                    <div class="card-body">
+                                        <blockquote class="blockquote mb-0">
+                                            <p>@nave.NomeCliente</p>
+                                            <p>@nave.Arrivo</p>
+                                            <p>@nave.Partenza</p>
+                                        </blockquote>
+                                    </div>
+                                </button>
                             }
                         }
-                    </tbody>
-                </table>
+                    }
+                }
             </div>
         </div>
     </div>

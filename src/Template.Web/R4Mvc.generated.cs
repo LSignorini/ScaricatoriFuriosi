@@ -101,8 +101,7 @@ public static partial class Links
         public const string UrlPath = "~/images";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
-        public static readonly string app_logo_png = Url("app-logo.png");
-        public static readonly string company_logo_png = Url("company-logo.png");
+        public static readonly string image_png = Url("image.png");
     }
 
     public static partial class js

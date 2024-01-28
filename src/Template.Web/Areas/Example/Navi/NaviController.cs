@@ -21,7 +21,9 @@ namespace Template.Web.Areas.Example.Navi
         public virtual async Task<IActionResult> Index(IndexViewModel model)
         {
             var navi = await _sharedService.Query(model.ToNaviIndexQuery());
+            var arrivi = await _sharedService.Query();
             model.SetNavi(navi);
+            model.SetArrivi(arrivi);
 
             return View(model);
         }

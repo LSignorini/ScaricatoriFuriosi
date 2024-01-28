@@ -11,6 +11,7 @@ namespace Template.Web.Areas.Example.Navi
         public IndexViewModel()
         {
             Navi = Array.Empty<NaveIndexViewModel>();
+            Arrivi = Array.Empty<ArriviIndexViewModel>();
         }
 
         [Display(Name = "Cerca")]
@@ -29,6 +30,13 @@ namespace Template.Web.Areas.Example.Navi
             {
                 Filter = Filter
             };
+        }
+
+        public IEnumerable<ArriviIndexViewModel> Arrivi { get; set; }
+
+        internal void SetArrivi(ArriviDTO arriviDTO)
+        {
+            Arrivi = arriviDTO.Arrivi.Select(x => new ArriviIndexViewModel(x)).ToArray();
         }
     }
 
@@ -50,5 +58,14 @@ namespace Template.Web.Areas.Example.Navi
         public DateTime Partenza { get; set; }
         public int Container { get; set; }
         public int Bancali { get; set; }
+    }
+
+    public class ArriviIndexViewModel
+    {
+        public ArriviIndexViewModel(ArriviDTO.Arrivo arriviDTO)
+        {
+            this.Arrivo = arriviDTO.Data;
+        }
+        public DateTime Arrivo { get; set; }
     }
 }

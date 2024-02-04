@@ -176,7 +176,7 @@ namespace Template.Services.Shared
         }
 
         /// <summary>
-        /// Returns the detail of the ship who matches the name passed in the qry parameter
+        /// Returns the detail of the ship who matches the id passed in the qry parameter
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>
@@ -213,6 +213,7 @@ namespace Template.Services.Shared
                 {
                     Data = x.Arrivo
                 })
+                .Distinct()
                 .ToArrayAsync()
             };
         }

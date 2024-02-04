@@ -177,7 +177,7 @@ namespace Template.Infrastructure
                     Id = Guid.Parse("49b6f5b8-94d5-47c5-8678-f5eec15da617"), // Forced to specific Guid for tests
                     Nome = "Chioggia",
                     NomeCliente = "Jeanneau",
-                    Arrivo = new DateTime(2024, 02, 13, 6, 0, 0),
+                    Arrivo = new DateTime(2024, 01, 12, 0, 0, 0),
                     Partenza = new DateTime(2024, 02, 17, 20, 0, 0),
                     Container = 17,
                     Bancali = 0

@@ -16,22 +16,16 @@
                         <input asp-for="Filter" class="form-control" />
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownmenubutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Tutte
+                        <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropDownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Tutte
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownmenubutton">
-                            <li class="dropdown-item" onclick="showCuisine(this)">
+                        <ul class="dropdown-menu" aria-labelledby="dropDownMenuButton">
+                            <li class="dropdown-item" onclick="showFilters(this)">
                                 <span>Tutte</span>
                             </li>
-                            <li class="dropdown-item" onclick="showCuisine(this)">
+                            <li class="dropdown-item" onclick="showFilters(this)">
                                 <span>In scadenza</span>
                             </li>
                         </ul>                
-                        <script>
-                            function showCuisine(item) {
-                                document.getElementById("dropdownmenubutton").innerHTML = item.innerHTML;
-
-                            }
-                        </script>
                     </div>
                 </div>
 
@@ -51,12 +45,10 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 p-0">
+            <div>
                 @if (Model.Navi.Any() == false)
                 {
-                    <tr>
-                        <td colspan="3">Nessun elemento trovato con i filtri correnti</td>
-                    </tr>
+                    <p colspan="3">Nessun elemento trovato con i filtri correnti</p>
                 }
                 else
                 {
@@ -67,15 +59,15 @@
                         {
                             @if (@nave.Arrivo == @arrivo.Arrivo)
                             {
-                                <button class="card">
-                                    <div class="card-header">
+                                <button class="card" onclick="javascript:utilities.navigateUrlExcludeOnitNotNavigate('@Url.Action(MVC.Example.Navi.Edit(nave.Id))')" title="@ModelLocalizer["Mostra Nave"] @nave.Nome" style="width:100%">
+                                    <div class="card-header" style="width:100%">
                                         @nave.Nome
                                     </div>
                                     <div class="card-body">
                                         <blockquote class="blockquote mb-0">
-                                            <p>@nave.NomeCliente</p>
-                                            <p>@nave.Arrivo</p>
-                                            <p>@nave.Partenza</p>
+                                            <p style="text-align:start">@nave.NomeCliente</p>
+                                            <p style="text-align:start">@nave.Arrivo</p>
+                                            <p style="text-align:start">@nave.Partenza</p>
                                         </blockquote>
                                     </div>
                                 </button>
@@ -87,3 +79,8 @@
         </div>
     </div>
 </div>
+<script>
+    function showFilters(item) {
+        document.getElementById("dropDownMenuButton").innerHTML = item.innerHTML;
+    }
+</script>

@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using Template.Infrastructure.AspNetCore;
 using Template.Services.Shared;
+using Template.Web.Infrastructure;
+using Template.Web.SignalR.Hubs.Events;
 
 namespace Template.Web.Areas.Example.Navi
 {
@@ -26,6 +29,28 @@ namespace Template.Web.Areas.Example.Navi
             model.SetArrivi(arrivi);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> Edit(Guid? Id)
+        {
+            var model = new EditViewModel();
+
+            if (Id.HasValue)
+            {
+                model.SetNave(await _sharedService.Query(new NaveDetailQuery
+                {
+                    Id = Id.Value
+                }));
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> Edit(EditViewModel model)
+        {
+            return RedirectToAction(Actions.Edit(model.Id));
         }
     }
 }

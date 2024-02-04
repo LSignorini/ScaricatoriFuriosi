@@ -44,6 +44,7 @@ namespace Template.Web.Areas.Example.Navi
     {
         public NaveIndexViewModel(NaviIndexDTO.Nave naveIndexDTO)
         {
+            this.Id = naveIndexDTO.Id;
             this.Nome = naveIndexDTO.Nome;
             this.NomeCliente = naveIndexDTO.NomeCliente;
             this.Arrivo = naveIndexDTO.Arrivo;
@@ -52,6 +53,7 @@ namespace Template.Web.Areas.Example.Navi
             this.Bancali = naveIndexDTO.Bancali;
         }
 
+        public Guid Id { get; set; }
         public string Nome { get; set; }
         public string NomeCliente { get; set; }
         public DateTime Arrivo { get; set; }
@@ -66,6 +68,7 @@ namespace Template.Web.Areas.Example.Navi
         {
             this.Arrivo = arriviDTO.Data;
         }
+        
         public DateTime Arrivo { get; set; }
     }
 }

@@ -76,6 +76,7 @@ namespace Template.Services.Shared
 
         public class Dipendente
         {
+            public Guid Id { get; set; }
             public string Nome { get; set; }
             public string Cognome { get; set; }
             public string Ruolo { get; set; }
@@ -202,6 +203,7 @@ namespace Template.Services.Shared
                     .OrderBy(x => x.Nome).ThenBy(x=> x.Cognome)
                     .Select(x => new DipendentiIndexDTO.Dipendente
                     {
+                        Id = x.Id,
                         Nome = x.Nome,
                         Cognome = x.Cognome,
                         Ruolo = x.Ruolo,
@@ -213,7 +215,7 @@ namespace Template.Services.Shared
         }
 
         /// <summary>
-        /// Returns the detail of the dipendente who matches the CF passed in the qry parameter
+        /// Returns the detail of the dipendente who matches the Id passed in the qry parameter
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>

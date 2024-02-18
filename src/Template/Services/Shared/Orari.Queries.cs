@@ -148,6 +148,7 @@ namespace Template.Services.Shared
                     Inizio = x.Orario.Inizio,
                     Fine = x.Orario.Fine
                 })
+                .OrderBy(x => x.Giorno)
                 .ToArrayAsync();
 
             return new OrariDipendenteSelectDTO

@@ -52,9 +52,12 @@ namespace Template.Web.Areas.Example.Dipendenti
                 {
                     Id = Id.Value,
                 }));
+
+                model.SetOrari(await _sharedService.Query(new NomeDipendenteDetailQuery 
+                { 
+                    Id = Id.Value,
+                }));
             }
-
-
 
             return View(model);
         }

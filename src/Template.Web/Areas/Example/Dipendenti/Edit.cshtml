@@ -4,6 +4,8 @@
     ViewData["Ruolo"] = Model.Ruolo;
     ViewData["DataNascita"] = Model.DataNascita;
     ViewData["CF"] = Model.CF;
+    ViewData["VisitaMedica"] = Model.VisitaMedica;
+    ViewData["Patente"] = Model.Patente;
 }
 
 <div>
@@ -21,29 +23,32 @@
     <section>
         <h2>ORARI:</h2>
         <div class="lista-assegnazioni">
-            <div class="assegnazione" v-if="Orari.CF.count() > 0" v-for="">
-                <label class="giorno"> {{ Orari.Giorno }}</label>
-                <label class="turno"> {{ Orari.Inizio }} - {{ Orari.Fine }}          {{ Orari.NomeNave }}</label>
+            <div class="assegnazione">
+                @foreach (var orario in Model.Orari)
+                {
+                    <label class="giorno"> @orario.Giorno </label>
+                    <label class="turno"> @orario.Inizio - @orario.Fine          @orario.NomeNave</label>
+                }
             </div>
 
-            <div class="nessuna-assegnazione" v-else>
+            <div class="nessuna-assegnazione">
                 <label class="vuota">Nessun turno assegnato</label>
             </div>
         </div>
     </section>
 
     <aside class="certificati">
-        <div class="card-certificato">
-            <h2>Visita Medica</h2>
-            <label>Scadenza:</label>
-            <label>{{ Dipendenti.VisitaMedica }}</label>
-            <button><img src="~/images/app-logo.png" alt="modifica" /></button>
+        <div class="card">
+            <h2 class="card-header">Visita Medica</h2>
+            <label class="card-body">Scadenza:</label>
+            <label class="card-body">@ViewData["VisitaMedica"]</label>
+            <button><img src="~/images/pencil.png" alt="modifica" /></button>
         </div>
-        <div class="card-certificato">
-            <h2>Patente</h2>
-            <label>Scadenza:</label>
-            <label>{{ Dipendenti.Patente }}</label>
-            <button><img src="~/images/app-logo.png" alt="modifica" /></button>
+        <div class="card">
+            <h2 class="card-header">Patente</h2>
+            <label class="card-body">Scadenza:</label>
+            <label class="card-body">@ViewData["Patente"]</label>
+            <button><img src="~/images/pencil.png" alt="modifica" /></button>
         </div>
     </aside>
 </div>
@@ -60,8 +65,7 @@
         @Html.Raw(Model.ToJson())
     </script>
     <script type="text/javascript">
-        // SOSTITUIRE @Model.CF con ID del gruppo
-        var signalRManager = new SignalRConnectionManager("/templateHub", "@Model.CF", "JoinGroup", "LeaveGroup");
+        var signalRManager = new SignalRConnectionManager("/templateHub", "@Model.Id", "JoinGroup", "LeaveGroup");
         signalRManager.registerEvents();
         signalRManager.startConnection();
 

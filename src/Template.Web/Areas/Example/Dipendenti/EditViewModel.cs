@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Template.Services.Shared;
 using Template.Web.Infrastructure;
 
@@ -11,6 +13,7 @@ namespace Template.Web.Areas.Example.Dipendenti
         public EditViewModel()
         {
         }
+
         public Guid? Id { get; set; }
         [Display(Name = "Codice Fiscale")]
         public string CF { get; set; }
@@ -26,6 +29,13 @@ namespace Template.Web.Areas.Example.Dipendenti
         public DateTime VisitaMedica { get; set; }
         [Display(Name = "Patente")]
         public DateTime Patente { get; set; }
+
+        public IEnumerable<OrariEditViewModel> Orari { get; set; }
+
+        internal void SetOrari(OrariDipendenteSelectDTO orariDipendenteSelectDTO)
+        {
+            Orari = orariDipendenteSelectDTO.Orari.Select(x => new OrariEditViewModel(x)).ToArray();
+        }
 
         public string ToJson()
         {
@@ -56,5 +66,21 @@ namespace Template.Web.Areas.Example.Dipendenti
                 Patente = Patente
             };
         }
+    }
+
+    public class OrariEditViewModel
+    {
+        public OrariEditViewModel(OrariDipendenteSelectDTO.Orario orariDTO)
+        {
+            this.Giorno = orariDTO.Giorno;
+            this.Inizio = orariDTO.Inizio;
+            this.Fine = orariDTO.Fine;
+            this.NomeNave = orariDTO.NomeNave;
+        }
+
+        public DateOnly Giorno { get; set; }
+        public TimeOnly Inizio { get; set;}
+        public TimeOnly Fine { get; set; }
+        public string NomeNave { get; set;}
     }
 }

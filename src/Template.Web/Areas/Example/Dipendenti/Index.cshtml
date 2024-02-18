@@ -39,17 +39,17 @@
                         <tr>
                             <th>
                                 <a href="#">
-                                    @ModelLocalizer["Email"]&nbsp;
-                                </a>
-                            </th>
-                            <th>
-                                <a href="#">
                                     @ModelLocalizer["Nome"]&nbsp;
                                 </a>
                             </th>
                             <th>
                                 <a href="#">
                                     @ModelLocalizer["Cognome"]&nbsp;
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#">
+                                    @ModelLocalizer["Ruolo"]&nbsp;
                                 </a>
                             </th>
                         </tr>
@@ -63,17 +63,17 @@
                         }
                         else
                         {
-                            @foreach (var user in Model.Dipendenti)
+                            @foreach (var dipendente in Model.Dipendenti)
                             {
-                                <tr class="onit-table-row-link" onclick="javascript:utilities.navigateUrlExcludeOnitNotNavigate('@Url.Action(MVC.Example.Dipendenti.Edit(user.Id))')" title="@ModelLocalizer["Modifica utente"] @user.Nome">
+                                <tr class="onit-table-row-link" onclick="javascript:utilities.navigateUrlExcludeOnitNotNavigate('@Url.Action(MVC.Example.Dipendenti.Edit(dipendente.Id))')" title="@ModelLocalizer["Dettaglio dipendente"] @dipendente.Nome">
                                     <td scope="row" class="text-nowrap">
-                                        @user.Nome
+                                        @dipendente.Nome
                                     </td>
                                     <td class="text-nowrap">
-                                        @user.Cognome
+                                        @dipendente.Cognome
                                     </td>
                                     <td class="text-nowrap">
-                                        @user.Ruolo
+                                        @dipendente.Ruolo
                                     </td>
                                 </tr>
                             }

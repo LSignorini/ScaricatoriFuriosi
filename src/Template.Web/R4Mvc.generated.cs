@@ -102,6 +102,7 @@ public static partial class Links
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
         public static readonly string image_png = Url("image.png");
+        public static readonly string pencil_png = Url("pencil.png");
     }
 
     public static partial class js

@@ -36,16 +36,18 @@ namespace Template.Web.Areas.Example.Dipendenti
     {
         public DipendenteIndexViewModel(DipendentiIndexDTO.Dipendente dipendenteIndexDTO)
         {
+            this.Id = dipendenteIndexDTO.Id;
             this.Nome = dipendenteIndexDTO.Nome;
             this.Cognome = dipendenteIndexDTO.Cognome;
             this.Ruolo = dipendenteIndexDTO.Ruolo;
+            this.VisitaMedica = dipendenteIndexDTO.VisitaMedica;
+            this.Patente = dipendenteIndexDTO.Patente;
         }
 
         public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Ruolo { get; set; }
-        public DateTime DataNascita { get; set; }
         public DateTime VisitaMedica { get; set; }
         public DateTime Patente { get; set; }
     }

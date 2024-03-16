@@ -61,9 +61,9 @@ namespace Template.Infrastructure
                     Nome = "Salvatore",
                     Cognome = "Acquagrana",
                     Ruolo = "Mulettista",
-                    DataNascita = new DateTime(1983, 07, 26),
-                    VisitaMedica = new DateTime(2024, 12, 12),
-                    Patente = new DateTime(2024, 12, 25)
+                    DataNascita = new DateOnly(1983, 07, 26),
+                    VisitaMedica = new DateOnly(2024, 12, 12),
+                    Patente = new DateOnly(2024, 12, 25)
                 },
                 new Dipendente
                 {
@@ -72,9 +72,9 @@ namespace Template.Infrastructure
                     Nome = "Ciccio",
                     Cognome = "Gamer",
                     Ruolo = "Operatore Gru",
-                    DataNascita = new DateTime(1989, 06, 11),
-                    VisitaMedica = new DateTime(2023, 12, 12),
-                    Patente = new DateTime(2024, 11, 01)
+                    DataNascita = new DateOnly(1989, 06, 11),
+                    VisitaMedica = new DateOnly(2023, 12, 12),
+                    Patente = new DateOnly(2024, 11, 01)
                 },
                 new Dipendente
                 {
@@ -83,9 +83,9 @@ namespace Template.Infrastructure
                     Nome = "Tizio",
                     Cognome = "Arrabbiato",
                     Ruolo = "Manovalanza",
-                    DataNascita = new DateTime(1962, 02, 28),
-                    VisitaMedica = new DateTime(2026, 09, 11),
-                    Patente = new DateTime(2023, 11, 23)
+                    DataNascita = new DateOnly(1962, 02, 28),
+                    VisitaMedica = new DateOnly(2026, 09, 11),
+                    Patente = new DateOnly(2023, 11, 23)
                 },
                 new Dipendente
                 {
@@ -94,9 +94,9 @@ namespace Template.Infrastructure
                     Nome = "Aldo",
                     Cognome = "Bazzo",
                     Ruolo = "Mulettista",
-                    DataNascita = new DateTime(1999, 04, 28),
-                    VisitaMedica = new DateTime(2026, 05, 13),
-                    Patente = new DateTime(2028, 12, 31)
+                    DataNascita = new DateOnly(1999, 04, 28),
+                    VisitaMedica = new DateOnly(2026, 05, 13),
+                    Patente = new DateOnly(2028, 12, 31)
                 },
                 new Dipendente
                 {
@@ -105,9 +105,9 @@ namespace Template.Infrastructure
                     Nome = "Sergio",
                     Cognome = "Mattarello",
                     Ruolo = "Operatore Gru",
-                    DataNascita = new DateTime(1976, 01, 06),
-                    VisitaMedica = new DateTime(2025, 03, 16),
-                    Patente = new DateTime(2030, 10, 21)
+                    DataNascita = new DateOnly(1976, 01, 06),
+                    VisitaMedica = new DateOnly(2025, 03, 16),
+                    Patente = new DateOnly(2030, 10, 21)
                 },
                 new Dipendente
                 {
@@ -116,9 +116,9 @@ namespace Template.Infrastructure
                     Nome = "Benito",
                     Cognome = "Rosso",
                     Ruolo = "Manovalanza",
-                    DataNascita = new DateTime(1994, 09, 12),
-                    VisitaMedica = new DateTime(2029, 05, 04),
-                    Patente = new DateTime(2032, 01, 19)
+                    DataNascita = new DateOnly(1994, 09, 12),
+                    VisitaMedica = new DateOnly(2029, 05, 04),
+                    Patente = new DateOnly(2032, 01, 19)
                 });
 
             context.SaveChanges();
@@ -252,7 +252,7 @@ namespace Template.Infrastructure
                 new Orari
                 {
                     Id = Guid.Parse("851d6b9b-d276-4400-a926-dec65861a274"), // Forced to specific Guid for tests
-                    IdDipendente = Guid.Parse("e35a87f6-8418-46d3-8497-331c89fdb6eb"),
+                    IdDipendente = Guid.Parse("2a7c1d72-73c2-48af-bb45-fa3f7e40a410"), //ricambia
                     IdNave = Guid.Parse("d3ede598-24ed-461b-a9b1-5fc2ac0b8ed7"),
                     Giorno = new DateOnly(2024, 04, 04),
                     Inizio = new TimeOnly(18, 0, 0),

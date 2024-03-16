@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Threading.Tasks;
@@ -61,7 +61,7 @@ namespace Template.Web.Areas.Example.Dipendenti
 
             return View(model);
         }
-
+        /**
         [HttpPost]
         public virtual async Task<IActionResult> Edit(EditViewModel model)
         {
@@ -94,15 +94,29 @@ namespace Template.Web.Areas.Example.Dipendenti
 
             return RedirectToAction(Actions.Edit(model.Id));
         }
-
+        */
         [HttpPost]
-        public virtual async Task<IActionResult> Delete(Guid id)
+        public virtual async void ModificaData(string id, string visitaMedica, string patente)
         {
-            // Query to delete user
+            var viewModel = new EditViewModel();
+            Guid guidId = Guid.Parse(id);
+            
+            try
+            {
+                var idTurno = await _sharedService.Handle(viewModel.ToUpdateDipendenteCommand(guidId, visitaMedica, patente));
 
-            Alerts.AddSuccess(this, "Utente cancellato");
-
-            return RedirectToAction(Actions.Index());
+                // Esempio lancio di un evento SignalR
+                await _publisher.Publish(new NewMessageEvent
+                {
+                    IdGroup = (Guid)idTurno,
+                    IdUser = (Guid)idTurno,
+                    IdMessage = Guid.NewGuid()
+                });
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, e.Message);
+            }
         }
     }
 }

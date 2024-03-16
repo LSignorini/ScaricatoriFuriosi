@@ -48,7 +48,7 @@ namespace Template.Web.Areas.Example.Dipendenti
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Ruolo { get; set; }
-        public DateTime VisitaMedica { get; set; }
-        public DateTime Patente { get; set; }
+        public DateOnly VisitaMedica { get; set; }
+        public DateOnly Patente { get; set; }
     }
 }

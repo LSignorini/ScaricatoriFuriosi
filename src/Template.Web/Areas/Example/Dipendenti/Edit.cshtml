@@ -1,5 +1,6 @@
 ﻿@model Template.Web.Areas.Example.Dipendenti.EditViewModel
 @{
+    ViewData["Id"] = Model.Id;
     ViewData["Dipendente"] = Model.Nome + " " + Model.Cognome;
     ViewData["Ruolo"] = Model.Ruolo;
     ViewData["DataNascita"] = Model.DataNascita;
@@ -23,17 +24,23 @@
     <section>
         <h2>ORARI:</h2>
         <div class="lista-assegnazioni">
-            <div class="assegnazione">
+            @if (Model.Orari.Count() > 0)
+            {
                 @foreach (var orario in Model.Orari)
                 {
-                    <label class="giorno"> @orario.Giorno </label>
-                    <label class="turno"> @orario.Inizio - @orario.Fine          @orario.NomeNave</label>
+                    <div class="assegnazione">              
+                        <label class="giorno"> @orario.Giorno </label>
+                        <label class="turno"> @orario.Inizio - @orario.Fine          @orario.NomeNave</label>               
+                    </div>  
                 }
-            </div>
-
-            <div class="nessuna-assegnazione">
-                <label class="vuota">Nessun turno assegnato</label>
-            </div>
+               
+            }
+            @if (Model.Orari.Count() <= 0)
+            {
+                <div class="nessuna-assegnazione">
+                    <label class="vuota">Nessun turno assegnato</label>
+                </div>
+            }
         </div>
     </section>
 
@@ -41,14 +48,14 @@
         <div class="card">
             <h2 class="card-header">Visita Medica</h2>
             <label class="card-body">Scadenza:</label>
-            <label class="card-body">@ViewData["VisitaMedica"]</label>
-            <button><img src="~/images/pencil.png" alt="modifica" /></button>
+            <input type="text" id="visitaMedica" class="card-body" value="@ViewData["VisitaMedica"]" readonly />
+            <button id="editVisita"><img src="~/images/pencil.png" alt="modifica" /></button>
         </div>
         <div class="card">
             <h2 class="card-header">Patente</h2>
             <label class="card-body">Scadenza:</label>
-            <label class="card-body">@ViewData["Patente"]</label>
-            <button><img src="~/images/pencil.png" alt="modifica" /></button>
+            <input type="text" id="patente" class="card-body" value="@ViewData["Patente"]" readonly />
+            <button id="editPatente"><img src="~/images/pencil.png" alt="modifica" /></button>
         </div>
     </aside>
 </div>
@@ -60,6 +67,10 @@
 
     <script src="~/node_modules/@@microsoft/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
     <script src="~/js/signalRConnectionManager.js" asp-append-version="true"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script type="application/json" id="Seed_JSON">
         @Html.Raw(Model.ToJson())
@@ -78,5 +89,58 @@
             }
         });
 
+        //var editViewModel = new Example.Dipendenti.EditViewModel();
+
+        $(document).ready(function () {
+            $("#editVisita").click(function () {
+                $("#visitaMedica").prop("readonly", false);
+                $("#visitaMedica").addClass("modificabile");
+            });
+
+            $("#visitaMedica").blur(function () {
+                $(this).prop("readonly", true);
+                $(this).removeClass("modificabile");
+
+                var visitaMedica = $("#visitaMedica").val();
+                var patente = $("#patente").val();
+                eseguiModificaData(visitaMedica, patente);
+            });
+
+            $("#editPatente").click(function () {
+                $("#patente").prop("readonly", false);
+                $("#patente").addClass("modificabile");
+            });
+
+            // Aggiungi un altro gestore di eventi per salvare la data modificata
+            $("#patente").blur(function () {
+                $(this).prop("readonly", true);
+                $(this).removeClass("modificabile");
+
+                var visitaMedica = $("#visitaMedica").val();
+                var patente = $("#patente").val();
+                eseguiModificaData(visitaMedica, patente);
+            });
+
+            // Gestisci il click sul pulsante
+            function eseguiModificaData(visitaMedica, patente) {
+
+                // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                $.ajax({
+                    url: "/Example/Dipendenti/ModificaData",
+                    method: "POST",
+                    data: {
+                        id: "@Model.Id",
+                        visitaMedica: visitaMedica,
+                        patente: patente
+                    },
+                    success: function (response) {
+                        alert("Data modificata con successo!");
+                    },
+                    error: function () {
+                        alert("Si è verificato un errore durante la modifica della data.");
+                    }
+                });
+            }
+        });
     </script>
 }

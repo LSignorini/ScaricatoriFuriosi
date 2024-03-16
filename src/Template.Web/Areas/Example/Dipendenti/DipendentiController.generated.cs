@@ -92,9 +92,9 @@ namespace Template.Web.Areas.Example.Dipendenti
 
         [NonAction]
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
-        public virtual IActionResult Delete()
+        public virtual IActionResult ModificaData()
         {
-            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Delete);
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ModificaData);
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -115,7 +115,7 @@ namespace Template.Web.Areas.Example.Dipendenti
             public readonly string Index = "Index";
             public readonly string New = "New";
             public readonly string Edit = "Edit";
-            public readonly string Delete = "Delete";
+            public readonly string ModificaData = "ModificaData";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -124,7 +124,7 @@ namespace Template.Web.Areas.Example.Dipendenti
             public const string Index = "Index";
             public const string New = "New";
             public const string Edit = "Edit";
-            public const string Delete = "Delete";
+            public const string ModificaData = "ModificaData";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
@@ -179,28 +179,6 @@ namespace Template.Web.Areas.Example.Dipendenti
             var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "Id", Id);
             EditOverride(callInfo, Id);
-            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
-        }
-
-        [NonAction]
-        partial void EditOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, Template.Web.Areas.Example.Dipendenti.EditViewModel model);
-        [NonAction]
-        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Edit(Template.Web.Areas.Example.Dipendenti.EditViewModel model)
-        {
-            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Edit);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            EditOverride(callInfo, model);
-            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
-        }
-
-        [NonAction]
-        partial void DeleteOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, System.Guid id);
-        [NonAction]
-        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Delete(System.Guid id)
-        {
-            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Delete);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            DeleteOverride(callInfo, id);
             return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
         }
     }

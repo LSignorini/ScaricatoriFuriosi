@@ -24,11 +24,11 @@ namespace Template.Web.Areas.Example.Dipendenti
         [Display(Name = "Ruolo")]
         public string Ruolo { get; set; }
         [Display(Name = "Data di nascita")]
-        public DateTime DataNascita { get; set; }
+        public DateOnly DataNascita { get; set; }
         [Display(Name = "Visita medica")]
-        public DateTime VisitaMedica { get; set; }
+        public DateOnly VisitaMedica { get; set; }
         [Display(Name = "Patente")]
-        public DateTime Patente { get; set; }
+        public DateOnly Patente { get; set; }
 
         public IEnumerable<OrariEditViewModel> Orari { get; set; }
 
@@ -57,13 +57,16 @@ namespace Template.Web.Areas.Example.Dipendenti
             }
         }
 
-        public UpdateDipendentiCommand ToUpdateDipendenteCommand()
+        public UpdateDipendentiCommand ToUpdateDipendenteCommand(Guid id, string visitaMedica, string patente)
         {
+            DateOnly scadenzaVisitaMedica = DateOnly.Parse(visitaMedica);
+            DateOnly scadenzaPatente = DateOnly.Parse(patente);
+
             return new UpdateDipendentiCommand
             {
-                Id = Id,
-                VisitaMedica = VisitaMedica,
-                Patente = Patente
+                Id = id,
+                VisitaMedica = scadenzaVisitaMedica,
+                Patente = scadenzaPatente
             };
         }
     }

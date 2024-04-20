@@ -18,9 +18,9 @@
 <div>
     <div>
         <label>Cliente: </label><b> @Model.NomeCliente</b>
-        <label>Arrivo: </label><b> @Model.Arrivo</b>
-        <label>Partenza: </label><b> @Model.Partenza</b>
+        <br /><label>Arrivo: </label><b> @Model.Arrivo</b>
         <label>Container: </label><b> @Model.Container</b>
+        <br /><label>Partenza: </label><b> @Model.Partenza</b>
         <label>Bancali: </label><b> @Model.Bancali</b>
     </div>
 
@@ -37,14 +37,63 @@
     </div>
 </div>
 <div>
-    @foreach (var data in Model.DateLavorazione)
+    @for (var i = 0; i < Model.DateLavorazione.Count(); i++ )
     {
-        <label>@data.Data</label>
-        <label>Dipendenti rimanenti: NUMERO</label>
-        <button>Matita</button>
-        <table>
-            <thead></thead>
-            <tbody></tbody>
+        <label>@Model.DateLavorazione.ElementAt(i).Data</label>
+        <label>Dipendenti rimanenti: @Model.DipendentiDisponibili.ElementAt(i).Numero</label>
+        <button>Matita</button> <br />
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">00 - 06</th>
+                    <th scope="col">06 - 12</th>
+                    <th scope="col">12 - 18</th>
+                    <th scope="col">18 - 24</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>
+                    @foreach (var orarioDipendente in Model.OrariDipendenti)
+                    {
+                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
+                                && orarioDipendente.Inizio == TimeOnly.Parse("00:00:00"))
+                        {
+                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var orarioDipendente in Model.OrariDipendenti)
+                    {
+                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
+                                && orarioDipendente.Inizio == TimeOnly.Parse("06:00:00"))
+                        {
+                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var orarioDipendente in Model.OrariDipendenti)
+                    {
+                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
+                                && orarioDipendente.Inizio == TimeOnly.Parse("12:00:00"))
+                        {
+                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var orarioDipendente in Model.OrariDipendenti)
+                    {
+                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
+                                && orarioDipendente.Inizio == TimeOnly.Parse("18:00:00"))
+                        {
+                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
+                        }
+                    }
+                </td>                
+            </tbody>
+
         </table>
     }
 </div>

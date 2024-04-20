@@ -3,8 +3,11 @@ using System;
 using System.Threading.Tasks;
 using Template.Infrastructure.AspNetCore;
 using Template.Services.Shared;
+using System.Collections.Generic;
 using Template.Web.Infrastructure;
 using Template.Web.SignalR.Hubs.Events;
+using System.Collections;
+using System.Linq;
 
 namespace Template.Web.Areas.Example.Navi
 {
@@ -38,19 +41,42 @@ namespace Template.Web.Areas.Example.Navi
 
             if (Id.HasValue)
             {
-                model.SetNave(await _sharedService.Query(new NaveDetailQuery
+                var nave = await _sharedService.Query(new NaveDetailQuery
                 {
                     Id = Id.Value
-                }));
+                });
+
+                model.SetNave(nave);
+
+                model.SetDateLavorazione();
+
+                var orariDipendenti = await _sharedService.Query(new IdNaveDetailQuery
+                {
+                    Id = Id.Value
+                });
+
+                model.SetOrariDipendenti(orariDipendenti);
+
+                IEnumerable<DipDisponibiliSelectDTO> dipendentiDisponibili = Array.Empty<DipDisponibiliSelectDTO>();
+                foreach (var data in model.GetDateLavorazione()) { 
+                    DipDisponibiliSelectDTO dipDisponibiliGiorno = await _sharedService.Query(new GiornoSelectQuery
+                    {
+                        Giorno = data.Data
+                    });
+                    IEnumerable<DipDisponibiliSelectDTO> a = Enumerable.Empty<DipDisponibiliSelectDTO>().Append(dipDisponibiliGiorno);
+                    dipendentiDisponibili = dipendentiDisponibili.Concat(a);
+                }
+
+                model.setDipendentiDisponibili(dipendentiDisponibili);
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> Edit(EditViewModel model)
+        public virtual Task<IActionResult> Edit(EditViewModel model)
         {
-            return RedirectToAction(Actions.Edit(model.Id));
+            return Task.FromResult<IActionResult>(RedirectToAction(Actions.Edit(model.Id)));
         }
     }
 }

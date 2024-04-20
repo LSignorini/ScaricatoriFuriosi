@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Template.Services.Shared;
+using Template.Web.Areas.Example.Dipendenti;
 using Template.Web.Infrastructure;
-using static Template.Services.Shared.ArriviDTO;
 
 namespace Template.Web.Areas.Example.Navi
 {
@@ -13,7 +13,9 @@ namespace Template.Web.Areas.Example.Navi
     {
         public EditViewModel() 
         {
-            DateLavorazione = Array.Empty<DateLavorazioneEditViewModel>();
+            DateLavorazione = Array.Empty<DataLavorazioneEditViewModel>();
+            OrariDipendenti = Array.Empty<OrarioDipendenteEditViewModel>();
+            DipendentiDisponibili = Array.Empty<DipendentiDisponibiliEditViewModel>();
         }
 
         public Guid? Id { get; set; }
@@ -24,11 +26,47 @@ namespace Template.Web.Areas.Example.Navi
         public int Container {  get; set; }
         public int Bancali { get; set; }
 
-        public IEnumerable<DateLavorazioneEditViewModel> DateLavorazione { get; set; }
+        public IEnumerable<DataLavorazioneEditViewModel> DateLavorazione { get; set; }
 
-        internal void SetDateLavorazione(OrariNaveSelectDTO orariNaveSelectDTO)
+        public IEnumerable<OrarioDipendenteEditViewModel> OrariDipendenti { get; set; }
+
+        public IEnumerable<DipendentiDisponibiliEditViewModel> DipendentiDisponibili { get; set; }
+
+        internal void SetDateLavorazione()
         {
-            DateLavorazione = orariNaveSelectDTO.Orari.Select(x => new DateLavorazioneEditViewModel(x)).ToArray();
+            for (DateOnly giorno = DateOnly.FromDateTime(Arrivo); giorno.CompareTo(DateOnly.FromDateTime(Partenza)) < 0; giorno = giorno.AddDays(1)) {
+                IEnumerable<DataLavorazioneEditViewModel> a = Enumerable.Empty<DataLavorazioneEditViewModel>().Append(new DataLavorazioneEditViewModel(giorno));
+                DateLavorazione = DateLavorazione.Concat(a);
+            }
+        }
+
+        public IEnumerable<DataLavorazioneEditViewModel> GetDateLavorazione()
+        {
+            return DateLavorazione;
+        }
+
+        internal void SetOrariDipendenti(OrariNaveSelectDTO orariNaveSelectDTO)
+        {
+            OrariDipendenti = orariNaveSelectDTO.Orari.Select(x => new OrarioDipendenteEditViewModel(x)).ToArray();
+        }
+
+        public IEnumerable<OrarioDipendenteEditViewModel> GetOrariDipendenti() 
+        {
+            return OrariDipendenti;
+        }
+
+        internal void setDipendentiDisponibili(IEnumerable<DipDisponibiliSelectDTO> dipendentiDisponibili)
+        {
+            foreach (DipDisponibiliSelectDTO dipDisponibiliGiorno in dipendentiDisponibili)
+            {
+                IEnumerable<DipendentiDisponibiliEditViewModel> a = Enumerable.Empty<DipendentiDisponibiliEditViewModel>().Append(new DipendentiDisponibiliEditViewModel(dipDisponibiliGiorno));
+                DipendentiDisponibili = DipendentiDisponibili.Concat(a);
+            }
+        }
+
+        public IEnumerable<DipendentiDisponibiliEditViewModel> GetDipendentiDisponibili()
+        {
+            return DipendentiDisponibili;
         }
 
         public string ToJson()
@@ -51,13 +89,41 @@ namespace Template.Web.Areas.Example.Navi
         }
     }
 
-    public class DateLavorazioneEditViewModel
+    public class DataLavorazioneEditViewModel
     {
-        public DateLavorazioneEditViewModel(OrariNaveSelectDTO.Orario dateLavorazioneDTO)
+        public DataLavorazioneEditViewModel(DateOnly giorno)
         {
-            this.Data = dateLavorazioneDTO.Giorno;
+            this.Data = giorno;
         }
 
         public DateOnly Data { get; set; }
+    }
+
+    public class OrarioDipendenteEditViewModel
+    {
+        public OrarioDipendenteEditViewModel(OrariNaveSelectDTO.Orario orario)
+        {
+            this.Nome = orario.Nome;
+            this.Cognome = orario.Cognome;
+            this.Ruolo = orario.Ruolo;
+            this.Giorno = orario.Giorno;
+            this.Inizio = orario.Inizio;
+        }
+
+        public string Nome { get; set; }
+        public string Cognome { get; set; }
+        public string Ruolo { get; set; }
+        public DateOnly Giorno { get; set; }
+        public TimeOnly Inizio { get; set; }
+    }
+
+    public class DipendentiDisponibiliEditViewModel
+    {
+        public DipendentiDisponibiliEditViewModel(DipDisponibiliSelectDTO dipDisponibili)
+        {
+            this.Numero = dipDisponibili.Disponibili;
+        }
+
+        public int Numero { get; set; }
     }
 }

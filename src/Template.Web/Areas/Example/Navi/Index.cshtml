@@ -59,7 +59,7 @@
                         {
                             @if (@nave.Arrivo == @arrivo.Arrivo)
                             {
-                                <button class="card" onclick="javascript:utilities.navigateUrlExcludeOnitNotNavigate('@Url.Action(MVC.Example.Navi.Edit(nave.Id))')" title="@ModelLocalizer["Mostra Nave"] @nave.Nome" style="width:100%">
+                                <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width:100%">
                                     <div class="card-header" style="width:100%">
                                         @nave.Nome
                                     </div>
@@ -79,8 +79,14 @@
         </div>
     </div>
 </div>
+
 <script>
     function showFilters(item) {
         document.getElementById("dropDownMenuButton").innerHTML = item.innerHTML;
+    }
+
+    // Gestisci il click sul pulsante
+    function redirectToEditNave(idNave) {
+        window.location.href = "/Example/Navi/Edit/" + idNave;
     }
 </script>

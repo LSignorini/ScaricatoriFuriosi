@@ -254,7 +254,7 @@ namespace Template.Infrastructure
                     Id = Guid.Parse("851d6b9b-d276-4400-a926-dec65861a274"), // Forced to specific Guid for tests
                     IdDipendente = Guid.Parse("2a7c1d72-73c2-48af-bb45-fa3f7e40a410"), //ricambia
                     IdNave = Guid.Parse("d3ede598-24ed-461b-a9b1-5fc2ac0b8ed7"),
-                    Giorno = new DateOnly(2024, 04, 04),
+                    Giorno = new DateOnly(2024, 04, 05),
                     Inizio = new TimeOnly(18, 0, 0),
                     Fine = new TimeOnly(0, 0, 0)
                 },
@@ -284,6 +284,15 @@ namespace Template.Infrastructure
                     Giorno = new DateOnly(2024, 01, 12),
                     Inizio = new TimeOnly(0, 0, 0),
                     Fine = new TimeOnly(6, 0, 0)
+                },
+                new Orari
+                {
+                    Id = Guid.Parse("e22c13f1-25a1-41d6-b1c9-e1bd2c638dbc"), // Forced to specific Guid for tests
+                    IdDipendente = Guid.Parse("2a7c1d72-73c2-48af-bb45-fa3f7e40a410"),
+                    IdNave = Guid.Parse("be0693bc-0655-4ec1-99e6-9ff2e35dd9f8"),
+                    Giorno = new DateOnly(2024, 01, 12),
+                    Inizio = new TimeOnly(6, 0, 0),
+                    Fine = new TimeOnly(12, 0, 0)
                 });
 
             context.SaveChanges();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Template.Services.Shared
 {
-    public class NomeNaveDetailQuery
+    public class IdNaveDetailQuery
     {
         public Guid Id { get; set; }
     }
@@ -27,7 +27,7 @@ namespace Template.Services.Shared
     
     public class GiornoSelectQuery
     {
-        public DateTime Giorno { get; set; }
+        public DateOnly Giorno { get; set; }
     }
    
     public class DipDisponibiliSelectDTO
@@ -68,10 +68,10 @@ namespace Template.Services.Shared
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>
-        public async Task<OrariNaveSelectDTO> Query(NomeNaveDetailQuery qry)
+        public async Task<OrariNaveSelectDTO> Query(IdNaveDetailQuery qry)
         {
             var queryable = _dbContext.Orari
-                .Where(o => o.Id == qry.Id); // Filtra per id della nave
+                .Where(o => o.IdNave == qry.Id); // Filtra per id della nave
 
             var result = await queryable
                 .Join(

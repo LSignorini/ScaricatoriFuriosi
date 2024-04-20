@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Template.Infrastructure.AspNetCore;
 using Template.Services.Shared;
-using Template.Web.Infrastructure;
 using Template.Web.SignalR;
 using Template.Web.SignalR.Hubs.Events;
 

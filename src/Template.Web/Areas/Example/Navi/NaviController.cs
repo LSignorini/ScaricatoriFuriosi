@@ -68,6 +68,7 @@ namespace Template.Web.Areas.Example.Navi
                 }
 
                 model.setDipendentiDisponibili(dipendentiDisponibili);
+                model.setOrariIndexViewModel();
             }
 
             return View(model);

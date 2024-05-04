@@ -1,4 +1,5 @@
-﻿@model Template.Web.Areas.Example.Navi.EditViewModel
+﻿@inject IHtmlLocalizer<Template.Web.Areas.Example.Navi.IndexViewModel> ModelLocalizer
+@model Template.Web.Areas.Example.Navi.EditViewModel
 @{
     if (Model.Id != null)
     {
@@ -41,7 +42,7 @@
     {
         <label>@Model.DateLavorazione.ElementAt(i).Data</label>
         <label>Dipendenti rimanenti: @Model.DipendentiDisponibili.ElementAt(i).Numero</label>
-        <button>Matita</button> <br />
+        <button onclick="redirectToEditOrari('@Model.Id', '@Model.DateLavorazione.ElementAt(i).Data')">Matita</button> <br />
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -122,5 +123,10 @@
             }
         });
 
+    </script>
+    <script>
+        function redirectToEditOrari(idNave, giorno) {
+            window.location.href = "/Example/Orari/?Id=" + idNave + "&giorno=" + giorno;
+        }
     </script>
 }

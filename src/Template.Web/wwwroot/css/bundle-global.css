@@ -513,9 +513,9 @@ tfoot,
 tr,
 td,
 th {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
 }
 
 label {

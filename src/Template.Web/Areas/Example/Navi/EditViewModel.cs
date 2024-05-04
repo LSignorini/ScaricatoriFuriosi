@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Template.Services.Shared;
 using Template.Web.Areas.Example.Dipendenti;
+using Template.Web.Areas.Example.Orari;
 using Template.Web.Infrastructure;
 
 namespace Template.Web.Areas.Example.Navi
@@ -31,6 +32,8 @@ namespace Template.Web.Areas.Example.Navi
         public IEnumerable<OrarioDipendenteEditViewModel> OrariDipendenti { get; set; }
 
         public IEnumerable<DipendentiDisponibiliEditViewModel> DipendentiDisponibili { get; set; }
+
+        public Orari.IndexViewModel OrariIndexViewModel { get; set; }
 
         internal void SetDateLavorazione()
         {
@@ -67,6 +70,11 @@ namespace Template.Web.Areas.Example.Navi
         public IEnumerable<DipendentiDisponibiliEditViewModel> GetDipendentiDisponibili()
         {
             return DipendentiDisponibili;
+        }
+
+        internal void setOrariIndexViewModel()
+        {
+            OrariIndexViewModel = new Orari.IndexViewModel();
         }
 
         public string ToJson()

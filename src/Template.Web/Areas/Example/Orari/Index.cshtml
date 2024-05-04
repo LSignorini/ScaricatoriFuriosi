@@ -1,46 +1,29 @@
-﻿@inject IHtmlLocalizer<Template.Web.Areas.Example.Navi.IndexViewModel> ModelLocalizer
-@model Template.Web.Areas.Example.Navi.IndexViewModel
+﻿@{
+    Layout = "_LayoutHtml";
+}
+@inject IHtmlLocalizer<Template.Web.Areas.Example.Orari.IndexViewModel> ModelLocalizer
+@model Template.Web.Areas.Example.Orari.IndexViewModel
 @{
-    ViewData["Title"] = "Utenti";
+    ViewData["Title"] = "Orari";
 }
-@section pageTitle{
-    <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-title">
-        <a class="navbar-brand">
-            @ViewData["Title"] <small class="text-muted" title="numero di elementi individuati con i filtri attuali">)</small>
-        </a>
-        <ul class="navbar-nav flex-wrap ms-auto">
-            <li>
-                <i class="fa-solid fa-plus"></i>&nbsp;Nuovo
-            </li>
-        </ul>
-    </nav>
-}
-@section pageSubtitle{
-    <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-subtitle">
-        <form method="get" id="annullaRicerca">
-        </form>
-        <form class="onit-form-search" method="get" autocomplete="off">
-            <div class="row">
-                <div class="col-sm-auto onit-form-search-col-auto-2x">
-                    <label asp-for="Filter"></label>
-                    <div class="input-group onit-input-group-union">
-                        <span class="input-group-text"><i class="fa-solid fa-fw fa-magnifying-glass"></i></span>
-                        <input asp-for="Filter" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="col-sm-auto pt-2 mt-auto">
-                    <button class="btn btn-primary" type="submit">
-                        Cerca
-                    </button>
-                    <button class="btn btn-link" type="button" title="Annulla tutti i parametri della ricerca" onclick="document.getElementById('annullaRicerca').submit();">
-                        Azzera ricerca
-                    </button>
-                </div>
-            </div>
-        </form>
-    </nav>
-}
+<header>
+    <div>
+        <h1>@Model.Nave.Nome</h1>
+        <h2>@Model.Giorno</h2>
+    </div>
+</header>
+<aside>
+    @foreach (Template.Services.Shared.DipendentePerRuoloDTO dipendentiPerRuolo in Model.DipendentiLiberi)
+    {
+        <h2>@dipendentiPerRuolo.Ruolo</h2>
+        @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
+        {
+            <label>@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</label>
+            <br />
+        }
+        <hr />
+    }
+</aside>
 <div>
     <div class="container-fluid">
         <div class="row">
@@ -49,46 +32,14 @@
                     <thead>
                         <tr>
                             <th>
-                                <a href="#">
-                                    @ModelLocalizer["Email"]&nbsp;
-                                </a>
                             </th>
                             <th>
-                                <a href="#">
-                                    @ModelLocalizer["Nome"]&nbsp;
-                                </a>
                             </th>
                             <th>
-                                <a href="#">
-                                    @ModelLocalizer["Cognome"]&nbsp;
-                                </a>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.Navi.Any() == false)
-                        {
-                            <tr>
-                                <td colspan="3">Nessun elemento trovato con i filtri correnti</td>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var user in Model.Navi)
-                            {
-                                <tr class="onit-table-row-link" onclick="#" title="@ModelLocalizer["Modifica utente"] @user.Nome">
-                                    <td scope="row" class="text-nowrap">
-                                        @user.Nome
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @user.NomeCliente
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @user.Arrivo
-                                    </td>
-                                </tr>
-                            }
-                        }
                     </tbody>
                 </table>
             </div>

@@ -131,13 +131,14 @@ namespace Template.Web.Areas.Example.Orari
         }
 
         [NonAction]
-        partial void IndexOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, Template.Web.Areas.Example.Orari.IndexViewModel model);
+        partial void IndexOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, System.Guid? Id, System.DateOnly giorno);
         [NonAction]
-        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Index(Template.Web.Areas.Example.Orari.IndexViewModel model)
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Index(System.Guid? Id, System.DateOnly giorno)
         {
             var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            IndexOverride(callInfo, model);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "Id", Id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "giorno", giorno);
+            IndexOverride(callInfo, Id, giorno);
             return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
         }
     }

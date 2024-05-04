@@ -24,12 +24,22 @@ namespace Template.Services.Shared
             public TimeOnly Inizio { get; set; }
         }
     }
-    
+    public class DipendentePerRuoloDTO
+    {
+        public string Ruolo { get; set; }
+        public List<DipendenteDetailDTO> Dipendenti { get; set; }
+    }
+
     public class GiornoSelectQuery
     {
         public DateOnly Giorno { get; set; }
     }
-   
+
+    public class DipendentiGiornoSelectQuery
+    {
+        public DateOnly Giorno { get; set; }
+    }
+
     public class DipDisponibiliSelectDTO
     {
         public int Disponibili { get; set; }
@@ -101,7 +111,7 @@ namespace Template.Services.Shared
         }
 
         /// <summary>
-        /// Returns workers available for a given day
+        /// Returns the number of workers available for a given day
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>
@@ -119,6 +129,45 @@ namespace Template.Services.Shared
             {
                 Disponibili = dipendentiTotali - dipendentiOccupati
             };
+        }
+
+        /// <summary>
+        /// Returns workers available for a given day grouped by role
+        /// </summary>
+        /// <param name="qry"></param>
+        /// <returns></returns>
+        public async Task<DipendentePerRuoloDTO[]> Query(DipendentiGiornoSelectQuery qry)
+        {
+            var queryable = _dbContext.Orari
+                .Where(x => x.Giorno == qry.Giorno);
+
+            var dipendentiOccupati = await queryable
+                .Select(orario => orario.IdDipendente)
+                .Distinct()
+                .ToListAsync();
+
+            var dipendentiDisponibiliPerRuolo = await _dbContext.Dipendenti
+                .Where(d => !dipendentiOccupati.Contains(d.Id))
+                .GroupBy(d => d.Ruolo)
+                .Select(g => new DipendentePerRuoloDTO
+                {
+                    Ruolo = g.Key,
+                    Dipendenti = g.Select(d =>
+                        new DipendenteDetailDTO
+                        {
+                            Id = d.Id,
+                            Nome = d.Nome,
+                            Cognome = d.Cognome,
+                            Ruolo = d.Ruolo,
+                            CF = d.CF,
+                            DataNascita = d.DataNascita,
+                            Patente = d.Patente,
+                            VisitaMedica = d.VisitaMedica
+                        }).ToList()
+                })
+                .ToArrayAsync();
+
+            return dipendentiDisponibiliPerRuolo;
         }
 
         /// <summary>
@@ -159,7 +208,7 @@ namespace Template.Services.Shared
 
 
         /// <summary>
-        /// Returns schedules for ship name and day
+        /// Returns schedules for ship id and day
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>

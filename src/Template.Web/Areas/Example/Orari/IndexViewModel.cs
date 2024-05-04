@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,10 +19,32 @@ namespace Template.Web.Areas.Example.Orari
 
         public IEnumerable<OrarioIndexViewModel> Orari { get; set; }
 
+        public NaveDetailDTO Nave { get; set; }
+
+        public DateOnly Giorno { get; set; }
+
+        public DipendentePerRuoloDTO[] DipendentiLiberi { get; set; }
+
         internal void SetOrari(OrariNaveSelectDTO orariIndexDTO)
         {
             Orari = orariIndexDTO.Orari.Select(x => new OrarioIndexViewModel(x)).ToArray();
         }
+
+        internal void SetNave(NaveDetailDTO naveDetailDTO)
+        {
+            Nave = naveDetailDTO;
+        }
+
+        internal void SetGiorno(DateOnly giornoCorrente)
+        {
+            Giorno = giornoCorrente;
+        }
+
+        internal void SetDipendentiLiberi(DipendentePerRuoloDTO[] dipendenti)
+        {
+            DipendentiLiberi = dipendenti;
+        }
+
         public OrariIndexQuery ToOrariIndexQuery()
         {
             return new OrariIndexQuery

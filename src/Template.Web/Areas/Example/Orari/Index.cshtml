@@ -16,11 +16,20 @@
     @foreach (Template.Services.Shared.DipendentePerRuoloDTO dipendentiPerRuolo in Model.DipendentiLiberi)
     {
         <h2>@dipendentiPerRuolo.Ruolo</h2>
-        @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
-        {
-            <label>@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</label>
-            <br />
-        }
+        @if (dipendentiPerRuolo.Dipendenti.Count > 0) {
+            <form action="#">
+                <select class="form-select" aria-label="Default select example" name="@dipendentiPerRuolo.Ruolo" size=@dipendentiPerRuolo.Dipendenti.Count
+                        style="display: inline-block; 
+                                vertical-align: top; 
+                                overflow: hidden;">
+                    <option style="display:none;">Seleziona...</option> <!-- Aggiungi un'opzione vuota -->
+                    @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
+                    {
+                        <option>@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</option>
+                    }
+                </select>
+            </form>
+        }            
         <hr />
     }
 </aside>
@@ -46,3 +55,69 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Seleziona tutti gli elementi select con la classe form-select
+    var selectElements = document.getElementsByClassName("form-select");
+
+    // Itera attraverso tutti gli elementi select
+    for (var i = 0; i < selectElements.length; i++) {
+        var selectElement = selectElements[i];
+
+        // Controlla la dimensione di ogni select all'avvio della pagina
+        checkSelectSize(selectElement);
+
+        // Aggiungi un gestore di eventi per il blur per deselezionare l'opzione al clic fuori dalla lista
+        selectElement.addEventListener('blur', function (event) {
+            // Verifica se è stata selezionata un'opzione diversa da quella vuota
+            if (this.selectedIndex !== 0) {
+                // Seleziona l'opzione vuota
+                this.selectedIndex = 0;
+            }
+        });
+    }
+
+    // Funzione per controllare la dimensione del select
+    function checkSelectSize(selectElement) {
+        if (selectElement.options.length == 1) {
+            // Se il select ha solo un'opzione, nascondi la freccetta del menu a tendina
+            selectElement.style.backgroundImage = "none";
+
+            // Aggiungi un gestore di eventi per il mousedown sull'opzione
+            selectElement.addEventListener('mousedown', function (event) {
+                // Impedisci l'apertura del menu a tendina
+                event.preventDefault();
+                // Seleziona l'opzione senza aprire il menu a tendina
+                selectElement.selectedIndex = 0; // Indice dell'unica opzione
+                // Simula lo stile di evidenziazione solo se non è già selezionata
+                if (!selectElement.dataset.selected) {
+                    selectElement.style.backgroundColor = "#0867d2"; // Cambia il colore di sfondo
+                    selectElement.style.color = "#000"; // Cambia il colore del testo
+                    selectElement.dataset.selected = true; // Imposta il dataset per indicare che è selezionato
+                }
+            });
+
+            // Aggiungi un gestore di eventi per il mouseup per ripristinare lo stile originale
+            selectElement.addEventListener('mouseup', function (event) {
+                // Ripristina lo stile originale solo se non è già selezionata
+                if (!selectElement.dataset.selected) {
+                    selectElement.style.backgroundColor = ""; // Ripristina il colore di sfondo
+                    selectElement.style.color = ""; // Ripristina il colore del testo
+                }
+            });
+
+            // Aggiungi un gestore di eventi per il cambio opzione per mantenere lo stile evidenziato
+            selectElement.addEventListener('change', function (event) {
+                if (selectElement.selectedIndex === 0) {
+                    // Rimuovi lo stato di selezione e ripristina lo stile originale
+                    selectElement.dataset.selected = false;
+                    selectElement.style.backgroundColor = "";
+                    selectElement.style.color = "";
+                } else {
+                    // Imposta lo stato di selezione
+                    selectElement.dataset.selected = true;
+                }
+            });
+        }
+    }
+</script>

@@ -41,8 +41,12 @@
     @for (var i = 0; i < Model.DateLavorazione.Count(); i++ )
     {
         <label>@Model.DateLavorazione.ElementAt(i).Data</label>
-        <label>Dipendenti rimanenti: @Model.DipendentiDisponibili.ElementAt(i).Numero</label>
-        <button onclick="redirectToEditOrari('@Model.Id', '@Model.DateLavorazione.ElementAt(i).Data')">Matita</button> <br />
+        <button style="float: right; margin-right: 10px;" 
+                onclick="redirectToEditOrari('@Model.Id', '@Model.DateLavorazione.ElementAt(i).Data')">
+            <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
+        </button>
+        <label style="float: right; margin-right: 10px;">Dipendenti rimanenti: @Model.DipendentiDisponibili.ElementAt(i).Numero</label> 
+        <br />
         <table class="table">
             <thead class="thead-light">
                 <tr>

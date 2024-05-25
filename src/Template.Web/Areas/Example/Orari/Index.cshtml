@@ -6,6 +6,29 @@
 @{
     ViewData["Title"] = "Orari";
 }
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .text {
+        padding-right: 20px; /* Aggiunto padding per fare spazio alla "x" */
+    }
+
+    .close-btn {
+        position: absolute;
+        align-self: center;
+        right: 10px; /* Posizionato a destra */
+        cursor: pointer;
+    }
+</style>
+
 <header>
     <div>
         <h1>@Model.Nave.Nome</h1>
@@ -17,18 +40,16 @@
     {
         <h2>@dipendentiPerRuolo.Ruolo</h2>
         @if (dipendentiPerRuolo.Dipendenti.Count > 0) {
-            <form action="#">
-                <select class="form-select" aria-label="Default select example" name="@dipendentiPerRuolo.Ruolo" size=@dipendentiPerRuolo.Dipendenti.Count
-                        style="display: inline-block; 
-                                vertical-align: top; 
-                                overflow: hidden;">
-                    <option style="display:none;">Seleziona...</option> <!-- Aggiungi un'opzione vuota -->
-                    @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
-                    {
-                        <option>@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</option>
-                    }
-                </select>
-            </form>
+            <select class="form-select" aria-label="Default select example" name="@dipendentiPerRuolo.Ruolo" size=@dipendentiPerRuolo.Dipendenti.Count
+                    style="display: inline-block; 
+                            vertical-align: top; 
+                            overflow: hidden;">
+                <option style="display:none;">Seleziona...</option>
+                @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
+                {
+                    <option id="@dipendentiLiberi.Id" value="@dipendentiLiberi.Id">@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</option>
+                }
+            </select>
         }            
         <hr />
     }
@@ -37,18 +58,80 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
-                <table class="table table-hover table-sm table-striped">
-                    <thead>
+                <table class="table">
+                    <thead class="thead-light">
                         <tr>
-                            <th>
-                            </th>
-                            <th>
-                            </th>
-                            <th>
-                            </th>
+                            <th scope="col">00 - 06</th>
+                            <th scope="col">06 - 12</th>
+                            <th scope="col">12 - 18</th>
+                            <th scope="col">18 - 24</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <td>
+                            <button id="btn-00" class="add-orario" disabled>+</button> <br />
+                            @foreach (var orarioDipendente in Model.Orari)
+                            {
+                                @if (orarioDipendente.Inizio == TimeOnly.Parse("00:00:00"))
+                                {
+                                    <div class="card">
+                                        <div class="text">
+                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
+                                            <p>@orarioDipendente.Ruolo</p>
+                                        </div>
+                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-00">x</button>
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <button id="btn-06" class="add-orario" disabled>+</button> <br />
+                            @foreach (var orarioDipendente in Model.Orari)
+                            {
+                                @if (orarioDipendente.Inizio == TimeOnly.Parse("06:00:00"))
+                                {
+                                    <div class="card">
+                                        <div class="text">
+                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
+                                            <p>@orarioDipendente.Ruolo</p>
+                                        </div>
+                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-06">x</button>
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <button id="btn-12" class="add-orario" disabled>+</button> <br />
+                            @foreach (var orarioDipendente in Model.Orari)
+                            {
+                                @if (orarioDipendente.Inizio == TimeOnly.Parse("12:00:00"))
+                                {
+                                    <div class="card">
+                                        <div class="text">
+                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
+                                            <p>@orarioDipendente.Ruolo</p>
+                                        </div>
+                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-12">x</button>
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <button id="btn-18" class="add-orario" disabled>+</button> <br />
+                            @foreach (var orarioDipendente in Model.Orari)
+                            {
+                                @if (orarioDipendente.Inizio == TimeOnly.Parse("18:00:00"))
+                                {
+                                    <div class="card">
+                                        <div class="text">
+                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
+                                            <p>@orarioDipendente.Ruolo</p>
+                                        </div>
+                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-18">x</button>
+                                    </div>
+                                }
+                            }
+                        </td>
                     </tbody>
                 </table>
             </div>
@@ -56,68 +139,197 @@
     </div>
 </div>
 
-<script>
-    // Seleziona tutti gli elementi select con la classe form-select
-    var selectElements = document.getElementsByClassName("form-select");
+@section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    // Itera attraverso tutti gli elementi select
-    for (var i = 0; i < selectElements.length; i++) {
-        var selectElement = selectElements[i];
+    <script>
+        // Seleziona tutti gli elementi select con la classe form-select
+        var selectElements = document.getElementsByClassName("form-select");
 
-        // Controlla la dimensione di ogni select all'avvio della pagina
-        checkSelectSize(selectElement);
+        // Ottengo il riferimento ai button con classe "add-orario"
+        var addOrarioButtons = document.getElementsByClassName("add-orario");
 
-        // Aggiungi un gestore di eventi per il blur per deselezionare l'opzione al clic fuori dalla lista
-        selectElement.addEventListener('blur', function (event) {
-            // Verifica se è stata selezionata un'opzione diversa da quella vuota
-            if (this.selectedIndex !== 0) {
-                // Seleziona l'opzione vuota
-                this.selectedIndex = 0;
-            }
-        });
-    }
+        // Itera attraverso tutti gli elementi select
+        for (var i = 0; i < selectElements.length; i++) {
+            var selectElement = selectElements[i];
 
-    // Funzione per controllare la dimensione del select
-    function checkSelectSize(selectElement) {
-        if (selectElement.options.length == 1) {
-            // Se il select ha solo un'opzione, nascondi la freccetta del menu a tendina
-            selectElement.style.backgroundImage = "none";
+            // Controlla la dimensione di ogni select all'avvio della pagina
+            //checkSelectSize(selectElement);
 
-            // Aggiungi un gestore di eventi per il mousedown sull'opzione
-            selectElement.addEventListener('mousedown', function (event) {
-                // Impedisci l'apertura del menu a tendina
-                event.preventDefault();
-                // Seleziona l'opzione senza aprire il menu a tendina
-                selectElement.selectedIndex = 0; // Indice dell'unica opzione
-                // Simula lo stile di evidenziazione solo se non è già selezionata
-                if (!selectElement.dataset.selected) {
-                    selectElement.style.backgroundColor = "#0867d2"; // Cambia il colore di sfondo
-                    selectElement.style.color = "#000"; // Cambia il colore del testo
-                    selectElement.dataset.selected = true; // Imposta il dataset per indicare che è selezionato
-                }
+            // Aggiungi un gestore di eventi per il blur per deselezionare l'opzione al clic fuori dalla lista
+            selectElement.addEventListener('blur', function (event) {
+                setTimeout(() => {
+                    // Verifica se è stata selezionata un'opzione diversa da quella vuota
+                    if (this.selectedIndex !== 0) {
+                        // Seleziona l'opzione vuota
+                        this.selectedIndex = 0;
+                        for (var i = 0; i < addOrarioButtons.length; i++) {
+                            // Ottengo il riferimento al singolo button
+                            var addOrarioButton = addOrarioButtons[i];
+                            addOrarioButton.disabled = true;
+                        }
+                    }
+                }, 250); // 250 millisecondi dovrebbe essere sufficiente
             });
 
-            // Aggiungi un gestore di eventi per il mouseup per ripristinare lo stile originale
-            selectElement.addEventListener('mouseup', function (event) {
-                // Ripristina lo stile originale solo se non è già selezionata
-                if (!selectElement.dataset.selected) {
-                    selectElement.style.backgroundColor = ""; // Ripristina il colore di sfondo
-                    selectElement.style.color = ""; // Ripristina il colore del testo
-                }
-            });
-
-            // Aggiungi un gestore di eventi per il cambio opzione per mantenere lo stile evidenziato
+            // Listener dell'evento di selezione di un option
             selectElement.addEventListener('change', function (event) {
-                if (selectElement.selectedIndex === 0) {
-                    // Rimuovi lo stato di selezione e ripristina lo stile originale
-                    selectElement.dataset.selected = false;
-                    selectElement.style.backgroundColor = "";
-                    selectElement.style.color = "";
-                } else {
-                    // Imposta lo stato di selezione
-                    selectElement.dataset.selected = true;
+                // Itera attraverso tutti gli elementi select
+                for (var i = 0; i < addOrarioButtons.length; i++) {
+                    var idDipendenteSelezionato = event.target.value;
+
+                    // Ottengo il riferimento al singolo button
+                    var addOrarioButton = addOrarioButtons[i];
+
+                    // Abilita il pulsante
+                    addOrarioButton.disabled = false;
+
+                    // Listener dell'evento di selezione di un option
+                    addOrarioButton.addEventListener('click', async function (event) {
+                        // Ottieni l'ID del pulsante cliccato
+                        var buttonId = event.target.id;
+
+                        try {
+                            // Esegui azioni basate sull'ID del pulsante cliccato
+                            if (buttonId == "btn-00") {
+                                addOrarioToDipendente(00, idDipendenteSelezionato, "@Model.Nave.Id", "@Model.Giorno");
+                            } else if (buttonId == "btn-06") {
+                                addOrarioToDipendente(06, idDipendenteSelezionato, "@Model.Nave.Id", "@Model.Giorno");
+                            } else if (buttonId == "btn-12") {
+                                addOrarioToDipendente(12, idDipendenteSelezionato, "@Model.Nave.Id", "@Model.Giorno");
+                            } else if (buttonId == "btn-18") {
+                                addOrarioToDipendente(18, idDipendenteSelezionato, "@Model.Nave.Id", "@Model.Giorno");
+                            }
+                        } catch (error) {
+                            console.error("Si è verificato un errore durante l'aggiunta dell'orario");
+                        }
+                    });
                 }
             });
         }
-    }
-</script>
+
+        // Gestisci il click sul pulsante +
+        function addOrarioToDipendente(orarioInizio, id, idNave, giorno) {
+            return new Promise((resolve, reject) => {
+                // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                $.ajax({
+                    url: "/Example/Orari/addOrarioToDipendente",
+                    method: "POST",
+                    data: {
+                        orarioInizio: orarioInizio,
+                        id: id,
+                        idNave: idNave,
+                        giorno: giorno
+                    },
+                    success: function (response) {
+                        //alert("Orario aggiunto con successo!");
+                        resolve(response);
+                        // Ricarica la pagina
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Si è verificato un errore durante l'aggiunta dell'orario.");
+                        reject();
+                    }
+                });
+            });
+        }
+
+        // Ottengo il riferimento ai button con classe "close-btn"
+        var cancelCardButtons = document.getElementsByClassName("close-btn");
+
+        for (var i = 0; i < cancelCardButtons.length; i++) {
+            var cancelCardButton = cancelCardButtons[i];
+
+            cancelCardButton.addEventListener('click', async function (event) {
+                // Ottieni l'ID del pulsante cliccato
+                var buttonName = event.target.name;
+                var idOrario = event.target.id;
+                
+                try {
+                    // Esegui azioni basate sull'ID del pulsante cliccato
+                    if (buttonName == "btn-00") {
+                        await removeOrarioDipendente(idOrario);
+                    } else if (buttonName == "btn-06") {
+                        await removeOrarioDipendente(idOrario);
+                    } else if (buttonName == "btn-12") {
+                        await removeOrarioDipendente(idOrario);
+                    } else if (buttonName == "btn-18") {
+                        await removeOrarioDipendente(idOrario);
+                    }
+                } catch (error) {
+                    console.error("Errore durante la rimozione dell'orario");
+                }
+            });
+        }
+        
+
+        // Gestisci il click sul pulsante x
+        function removeOrarioDipendente(idOrario) {
+            return new Promise((resolve, reject) => {
+                // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                $.ajax({
+                    url: "/Example/Orari/removeOrarioDipendente",
+                    method: "POST",
+                    data: {
+                        idOrario: idOrario
+                    },
+                    success: function (response) {
+                        //alert("Orario rimosso con successo!");
+                        resolve(response);
+                        // Ricarica la pagina
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Si è verificato un errore durante la rimozione dell'orario.");
+                        reject();
+                    }
+                });
+            });
+        }
+
+        // Funzione per controllare la dimensione del select
+        function checkSelectSize(selectElement) {
+            if (selectElement.options.length == 1) {
+                // Se il select ha solo un'opzione, nascondi la freccetta del menu a tendina
+                selectElement.style.backgroundImage = "none";
+
+                // Aggiungi un gestore di eventi per il mousedown sull'opzione
+                selectElement.addEventListener('mousedown', function (event) {
+                    // Impedisci l'apertura del menu a tendina
+                    event.preventDefault();
+                    // Seleziona l'opzione senza aprire il menu a tendina
+                    selectElement.selectedIndex = 0; // Indice dell'unica opzione
+                    // Simula lo stile di evidenziazione solo se non è già selezionata
+                    if (!selectElement.dataset.selected) {
+                        selectElement.style.backgroundColor = "#0867d2"; // Cambia il colore di sfondo
+                        selectElement.style.color = "#000"; // Cambia il colore del testo
+                        selectElement.dataset.selected = true; // Imposta il dataset per indicare che è selezionato
+                    }
+                });
+
+                // Aggiungi un gestore di eventi per il mouseup per ripristinare lo stile originale
+                selectElement.addEventListener('mouseup', function (event) {
+                    // Ripristina lo stile originale solo se non è già selezionata
+                    if (!selectElement.dataset.selected) {
+                        selectElement.style.backgroundColor = ""; // Ripristina il colore di sfondo
+                        selectElement.style.color = ""; // Ripristina il colore del testo
+                    }
+                });
+
+                // Aggiungi un gestore di eventi per il cambio opzione per mantenere lo stile evidenziato
+                selectElement.addEventListener('change', function (event) {
+                    if (selectElement.selectedIndex === 0) {
+                        // Rimuovi lo stato di selezione e ripristina lo stile originale
+                        selectElement.dataset.selected = false;
+                        selectElement.style.backgroundColor = "";
+                        selectElement.style.color = "";
+                    } else {
+                        // Imposta lo stato di selezione
+                        selectElement.dataset.selected = true;
+                    }
+                });
+            }
+        }
+    </script>
+}

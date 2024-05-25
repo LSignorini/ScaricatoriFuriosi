@@ -26,6 +26,7 @@ namespace Template.Services.Shared
             {
                 turno = new Orari
                 {
+                    Id = Guid.NewGuid(),
                     IdDipendente = cmd.IdDipendente,
                     IdNave = cmd.IdNave,
                     Giorno = cmd.Giorno,

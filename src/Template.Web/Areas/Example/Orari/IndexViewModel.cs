@@ -45,6 +45,28 @@ namespace Template.Web.Areas.Example.Orari
             DipendentiLiberi = dipendenti;
         }
 
+        public AddOrRemoveOrariCommand ToAddOrarioCommand(Guid idDipendente, TimeOnly inizio, Guid idNave, DateOnly giorno)
+        {
+            TimeOnly fine = inizio.Add(new TimeSpan(6, 0, 0));
+
+            return new AddOrRemoveOrariCommand
+            {
+                IdDipendente = idDipendente,
+                IdNave = idNave,
+                Giorno = giorno,
+                Inizio = inizio,
+                Fine = fine
+            };
+        }
+
+        public AddOrRemoveOrariCommand ToAddOrarioCommand(Guid idOrario)
+        {
+            return new AddOrRemoveOrariCommand
+            {
+                Id = idOrario
+            };
+        }
+
         public OrariIndexQuery ToOrariIndexQuery()
         {
             return new OrariIndexQuery

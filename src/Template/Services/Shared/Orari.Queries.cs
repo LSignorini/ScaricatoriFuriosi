@@ -217,9 +217,7 @@ namespace Template.Services.Shared
             var queryable = _dbContext.Orari
                 .Where(x => x.IdNave == qry.IdNave && x.Giorno == qry.Giorno);
 
-            return new OrariNaveSelectDTO
-            {
-                Orari = await queryable
+            var result = await queryable
                 .Join(
                     _dbContext.Dipendenti,
                     orari => orari.IdDipendente,
@@ -231,12 +229,17 @@ namespace Template.Services.Shared
                     })
                 .Select(x => new OrariNaveSelectDTO.Orario
                 {
+                    Id = x.Orario.Id,
                     Nome = x.Dipendente.Nome,
                     Cognome = x.Dipendente.Cognome,
                     Ruolo = x.Dipendente.Ruolo,
                     Inizio = x.Orario.Inizio
                 })
-                .ToArrayAsync()
+                .ToArrayAsync();
+
+            return new OrariNaveSelectDTO
+            {
+                Orari = result
             };
         }
     }

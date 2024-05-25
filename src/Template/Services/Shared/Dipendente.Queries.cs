@@ -193,7 +193,20 @@ namespace Template.Services.Shared
         /// <returns></returns>
         public async Task<DipendentiIndexDTO> Query(DipendentiIndexQuery qry)
         {
-            var queryable = _dbContext.Dipendenti;
+            var queryable = _dbContext.Dipendenti.AsQueryable();
+
+            if (string.IsNullOrWhiteSpace(qry.Filter) == false)
+            {
+                var filtri = qry.Filter.Split(" ");
+                foreach (var filtro in filtri.Where(x => x.Length > 0))
+                {
+                    // metti tutti i campi per cui vuoi cercare
+                    queryable = queryable.Where(x => x.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                                                    || x.Cognome.Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                                                    || x.Ruolo.Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                                                    || x.CF.Contains(filtro, StringComparison.OrdinalIgnoreCase));
+                }
+            }
 
             return new DipendentiIndexDTO
             {

@@ -14,18 +14,10 @@
                     <div class="input-group onit-input-group-union">
                         <span class="input-group-text"><i class="fa-solid fa-fw fa-magnifying-glass"></i></span>
                         <input asp-for="Filter" class="form-control" />
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropDownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Tutte
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropDownMenuButton">
-                            <li class="dropdown-item" onclick="showFilters(this)">
-                                <span>Tutte</span>
-                            </li>
-                            <li class="dropdown-item" onclick="showFilters(this)">
-                                <span>In scadenza</span>
-                            </li>
-                        </ul>                
+                        <select asp-for="Tipologia" name="filtro-scadenza" id="select-filtro">
+                        <option value="Tutte">Tutte</option>
+                        <option value="In scadenza">In scadenza</option>
+                        </select>
                     </div>
                 </div>
 
@@ -57,7 +49,7 @@
                         <label>@arrivo.Arrivo</label>
                         @foreach (var nave in Model.Navi)
                         {
-                            @if (@nave.Arrivo == @arrivo.Arrivo)
+                            @if (@nave.Arrivo.Day == @arrivo.Arrivo.Day)
                             {
                                 <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width:100%">
                                     <div class="card-header" style="width:100%">
@@ -80,13 +72,11 @@
     </div>
 </div>
 
-<script>
-    function showFilters(item) {
-        document.getElementById("dropDownMenuButton").innerHTML = item.innerHTML;
-    }
-
-    // Gestisci il click sul pulsante
-    function redirectToEditNave(idNave) {
-        window.location.href = "/Example/Navi/Edit/" + idNave;
-    }
-</script>
+@section scripts {
+    <script>
+        // Gestisci il click sul pulsante
+        function redirectToEditNave(idNave) {
+            window.location.href = "/Example/Navi/Edit/" + idNave;
+        }
+    </script>
+}

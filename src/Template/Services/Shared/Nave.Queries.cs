@@ -53,6 +53,7 @@ namespace Template.Services.Shared
     public class NaviIndexQuery
     {
         public string Filter { get; set; }
+        public string Tipologia { get; set; }
     }
 
     public class NaviIndexDTO
@@ -93,7 +94,7 @@ namespace Template.Services.Shared
         public IEnumerable<Arrivo> Arrivi { get; set; }
         public class Arrivo
         {
-            public DateTime Data { get; set; }
+            public DateOnly Data { get; set; }
         }
     }
 
@@ -157,7 +158,26 @@ namespace Template.Services.Shared
         /// <returns></returns>
         public async Task<NaviIndexDTO> Query(NaviIndexQuery qry)
         {
-            var queryable = _dbContext.Navi;
+            var queryable = _dbContext.Navi.AsQueryable();
+            if (string.IsNullOrWhiteSpace(qry.Filter) == false)
+            {
+                var filtri = qry.Filter.Split(" ");
+                foreach (var filtro in filtri.Where(x => x.Length > 0))
+                {
+                    // metti tutti i campi per cui vuoi cercare
+                    queryable = queryable.Where(x => x.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase) 
+                                                    || x.NomeCliente.Contains(filtro, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(qry.Tipologia) == false)
+            {
+                if (qry.Tipologia != "Tutte")
+                {
+                    var soglia = DateTime.Now.AddDays(7);
+                    queryable = queryable.Where(x => x.Partenza < soglia);
+                }
+            }
 
             return new NaviIndexDTO
             {
@@ -211,7 +231,7 @@ namespace Template.Services.Shared
                 Arrivi = await queryable
                 .Select(x => new ArriviDTO.Arrivo
                 {
-                    Data = x.Arrivo
+                    Data = new DateOnly(x.Arrivo.Year, x.Arrivo.Month, x.Arrivo.Day) 
                 })
                 .Distinct()
                 .ToArrayAsync()

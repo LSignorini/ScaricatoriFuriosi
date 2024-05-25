@@ -16,6 +16,7 @@ namespace Template.Web.Areas.Example.Navi
 
         [Display(Name = "Cerca")]
         public string Filter { get; set; }
+        public string Tipologia { get; set; }
 
         public IEnumerable<NaveIndexViewModel> Navi { get; set; }
 
@@ -28,7 +29,8 @@ namespace Template.Web.Areas.Example.Navi
         {
             return new NaviIndexQuery
             {
-                Filter = Filter
+                Filter = Filter, 
+                Tipologia = Tipologia
             };
         }
 
@@ -69,6 +71,6 @@ namespace Template.Web.Areas.Example.Navi
             this.Arrivo = arriviDTO.Data;
         }
         
-        public DateTime Arrivo { get; set; }
+        public DateOnly Arrivo { get; set; }
     }
 }

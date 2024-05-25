@@ -119,6 +119,17 @@ namespace Template.Infrastructure
                     DataNascita = new DateOnly(1994, 09, 12),
                     VisitaMedica = new DateOnly(2029, 05, 04),
                     Patente = new DateOnly(2032, 01, 19)
+                },
+                new Dipendente
+                {
+                    Id = Guid.Parse("31fb4d9c-bb2a-4d0a-90b8-68d70bc5da8e"), // Forced to specific Guid for tests
+                    CF = "SPFNTL90P12D704L",
+                    Nome = "Superfluo",
+                    Cognome = "Inutile",
+                    Ruolo = "Manovalanza",
+                    DataNascita = new DateOnly(1990, 09, 12),
+                    VisitaMedica = new DateOnly(2027, 05, 18),
+                    Patente = new DateOnly(2028, 06, 19)
                 });
 
             context.SaveChanges();

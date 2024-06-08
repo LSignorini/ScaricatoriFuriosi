@@ -175,7 +175,7 @@ namespace Template.Services.Shared
                 if (qry.Tipologia != "Tutte")
                 {
                     var soglia = DateTime.Now.AddDays(7);
-                    queryable = queryable.Where(x => x.Partenza < soglia);
+                    queryable = queryable.Where(x => x.Partenza <= soglia && x.Partenza >= DateTime.Now);
                 }
             }
 

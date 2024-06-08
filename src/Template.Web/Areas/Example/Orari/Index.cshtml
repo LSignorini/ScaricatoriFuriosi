@@ -35,105 +35,45 @@
         <h2>@Model.Giorno</h2>
     </div>
 </header>
-<aside>
-    @foreach (Template.Services.Shared.DipendentePerRuoloDTO dipendentiPerRuolo in Model.DipendentiLiberi)
-    {
-        <h2>@dipendentiPerRuolo.Ruolo</h2>
-        @if (dipendentiPerRuolo.Dipendenti.Count > 0) {
-            <select class="form-select" aria-label="Default select example" name="@dipendentiPerRuolo.Ruolo" size=@dipendentiPerRuolo.Dipendenti.Count
-                    style="display: inline-block; 
-                            vertical-align: top; 
-                            overflow: hidden;">
-                <option style="display:none;">Seleziona...</option>
-                @foreach (Template.Services.Shared.DipendenteDetailDTO dipendentiLiberi in dipendentiPerRuolo.Dipendenti)
-                {
-                    <option id="@dipendentiLiberi.Id" value="@dipendentiLiberi.Id">@dipendentiLiberi.Nome @dipendentiLiberi.Cognome</option>
-                }
-            </select>
-        }            
-        <hr />
-    }
-</aside>
-<div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 p-0">
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">00 - 06</th>
-                            <th scope="col">06 - 12</th>
-                            <th scope="col">12 - 18</th>
-                            <th scope="col">18 - 24</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <td>
-                            <button id="btn-00" class="add-orario" disabled>+</button> <br />
-                            @foreach (var orarioDipendente in Model.Orari)
-                            {
-                                @if (orarioDipendente.Inizio == TimeOnly.Parse("00:00:00"))
-                                {
-                                    <div class="card">
+<div id="pageId">
+    <aside>
+        <div v-for="dipendentiLiberi in model.model.dipendentiLiberi">
+            <h2>{{dipendentiLiberi.ruolo}}</h2>
+            <div class="list-group">
+                <div v-for="dipendenteLibero in dipendentiLiberi.dipendenti">
+                    <a href="#" class="list-group-item list-group-item-action" aria-current="true"
+                       v-on:click="toggleOperator(dipendenteLibero.id)" v-bind:class="{'active' : isOperatorSelected(dipendenteLibero.id)}">{{dipendenteLibero.nome}} {{dipendenteLibero.cognome}}</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" v-for="fasciaOraria in model.model.fasceOrarie">{{fasciaOraria.etichetta}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td v-for ="fasciaOraria in model.model.fasceOrarie">
+                                    <button type="button" v-bind:disabled="!isOneOperatorSelected()" v-on:click="addOrarioToDipendente(fasciaOraria.orarioInizio)">+</button> <br />
+                                <div class="card" v-for="orario in fasciaOraria.orari">
                                         <div class="text">
-                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
-                                            <p>@orarioDipendente.Ruolo</p>
+                                            <p>{{orario.nome}} {{orario.cognome}}</p>
+                                            <p>{{orario.ruolo}}</p>
                                         </div>
-                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-00">x</button>
+                                        <button class="close-btn" name="btn-00"
+                                                v-on:click="removeOrarioDipendente(orario.id)">x</button>
                                     </div>
-                                }
-                            }
-                        </td>
-                        <td>
-                            <button id="btn-06" class="add-orario" disabled>+</button> <br />
-                            @foreach (var orarioDipendente in Model.Orari)
-                            {
-                                @if (orarioDipendente.Inizio == TimeOnly.Parse("06:00:00"))
-                                {
-                                    <div class="card">
-                                        <div class="text">
-                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
-                                            <p>@orarioDipendente.Ruolo</p>
-                                        </div>
-                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-06">x</button>
-                                    </div>
-                                }
-                            }
-                        </td>
-                        <td>
-                            <button id="btn-12" class="add-orario" disabled>+</button> <br />
-                            @foreach (var orarioDipendente in Model.Orari)
-                            {
-                                @if (orarioDipendente.Inizio == TimeOnly.Parse("12:00:00"))
-                                {
-                                    <div class="card">
-                                        <div class="text">
-                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
-                                            <p>@orarioDipendente.Ruolo</p>
-                                        </div>
-                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-12">x</button>
-                                    </div>
-                                }
-                            }
-                        </td>
-                        <td>
-                            <button id="btn-18" class="add-orario" disabled>+</button> <br />
-                            @foreach (var orarioDipendente in Model.Orari)
-                            {
-                                @if (orarioDipendente.Inizio == TimeOnly.Parse("18:00:00"))
-                                {
-                                    <div class="card">
-                                        <div class="text">
-                                            <p>@orarioDipendente.Nome @orarioDipendente.Cognome</p>
-                                            <p>@orarioDipendente.Ruolo</p>
-                                        </div>
-                                        <button id="@orarioDipendente.Id" class="close-btn" name="btn-18">x</button>
-                                    </div>
-                                }
-                            }
-                        </td>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -141,6 +81,196 @@
 
 @section scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/bundle-vue.js" asp-append-version="true"></script>
+    <script src="~/Areas/Example/Orari/Index.js" asp-append-version="true"></script>
+
+    <script type="application/json" id="Seed_JSON">
+        @Html.Raw(Model.ToJson())
+    </script>
+    <script type="text/javascript">
+        var indexVueModel = new Example.Orari.indexVueModel(JSON.parse(document.getElementById("Seed_JSON").innerText));
+
+        var vueModel = new Vue({
+            el: '#pageId',
+            data: function () {
+                return {
+                    model: indexVueModel,
+                    selectedOperatorId : null
+                };
+            },
+            methods: {
+                isOperatorSelected : function (id) {
+                    return this.selectedOperatorId == id;
+                },
+
+                toggleOperator: function (operatorId) {
+                    if (this.selectedOperatorId == operatorId) {
+                        this.selectedOperatorId = null;
+                    }
+                    else {
+                        this.selectedOperatorId = operatorId;
+                    }
+                },
+
+                isOneOperatorSelected: function () {
+                    return this.selectedOperatorId != null;
+                },
+
+                // Gestisci il click sul pulsante +
+                addOrarioToDipendente : function (orarioInizio) {
+                    return new Promise((resolve, reject) => {
+                        // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                        $.ajax({
+                            url: "/Example/Orari/addOrarioToDipendente",
+                            method: "POST",
+                            data: {
+                                orarioInizio: orarioInizio,
+                                id: this.selectedOperatorId,
+                                idNave: vueModel.model.model.nave.id,
+                                giorno: vueModel.model.model.giorno
+                            },
+                            success: function (response) {
+                                //alert("Orario aggiunto con successo!");
+                                resolve(response);
+                                this.selectedOperatorId = null;
+                                // Ricarica la pagina
+                                location.reload();
+                            },
+                            error: function () {
+                                alert("Si è verificato un errore durante l'aggiunta dell'orario.");
+                                reject();
+                            }
+                        });
+                    });
+                },
+
+                // Gestisci il click sul pulsante x
+                removeOrarioDipendente : function (idOrario) {
+                    return new Promise((resolve, reject) => {
+                        // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                        $.ajax({
+                            url: "/Example/Orari/removeOrarioDipendente",
+                            method: "POST",
+                            data: {
+                                idOrario: idOrario
+                            },
+                            success: function (response) {
+                                //alert("Orario rimosso con successo!");
+                                resolve(response);
+                                // Ricarica la pagina
+                                location.reload();
+                            },
+                            error: function () {
+                                alert("Si è verificato un errore durante la rimozione dell'orario.");
+                                reject();
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+
+    @*<script>
+        this.isOperatorSelected = (operator) => {
+            return this.selectedOperatorId == operator.id;
+        };
+
+        this.toggleOperator = (operatorId) => {
+            if (this.selectedOperatorId == operatorId) {
+                this.selectedOperatorId = null;
+            }
+            else {
+                this.selectedOperatorId = operatorId;
+            }
+        };
+
+        this.isOneOperatorSelected = () => {
+            return this.selectedOperatorId != null;
+        };
+
+        // Gestisci il click sul pulsante +
+        function addOrarioToDipendente(orarioInizio) {
+            return new Promise((resolve, reject) => {
+                // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                $.ajax({
+                    url: "/Example/Orari/addOrarioToDipendente",
+                    method: "POST",
+                    data: {
+                        orarioInizio: orarioInizio,
+                        id: this.selectedOperatorId,
+                        idNave: "model.Nave.Id",
+                        giorno: "model.Giorno"
+                    },
+                    success: function (response) {
+                        //alert("Orario aggiunto con successo!");
+                        resolve(response);
+                        this.selectedOperatorId = null;
+                        // Ricarica la pagina
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Si è verificato un errore durante l'aggiunta dell'orario.");
+                        reject();
+                    }
+                });
+            });
+        }
+
+        // Gestisci il click sul pulsante x
+        function removeOrarioDipendente(idOrario) {
+            return new Promise((resolve, reject) => {
+                // Chiama l'endpoint nel controller ASP.NET utilizzando AJAX
+                $.ajax({
+                    url: "/Example/Orari/removeOrarioDipendente",
+                    method: "POST",
+                    data: {
+                        idOrario: idOrario
+                    },
+                    success: function (response) {
+                        //alert("Orario rimosso con successo!");
+                        resolve(response);
+                        // Ricarica la pagina
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Si è verificato un errore durante la rimozione dell'orario.");
+                        reject();
+                    }
+                });
+            });
+        }
+    </script>
+
+      
+    Con Vue valorizzare idDipendenteCorrente tramite @click su ogni voce delle liste di dipendenti.
+    Poi aggiungere un watcher all'idDipendenteCorrente, se questo è uguale a un id dipendente allora si attiva, altrimenti no
+    v-bind:class="{'selected' : isOperatorSelected(operator)" -> attiva o meno se corrisponde l'id'
+    this.isOperatorSelected = (operator) => {
+        return this.selectedOperatorId == operator.id;
+    };
+
+    v-on:click="toggleOperator(operator.id)" -> assegna idDipendenteCorrente
+    this.toggleOperator = (operatorId) => {
+        if (this.selectedOperatorId == operatorId) {
+            this.selectedOperatorId = null;
+        }
+        else {
+            this.selectedOperatorId = operatorId;
+        }
+    };
+
+    e se idDipendenteCorrente è valorizzato allora i buttons + sono attivi, altrimenti no
+    <div class="drop-arrow py-2" v-bind:class="{'drop-arrow-enabled': isOneOperatorSelected()}" v-on:click="addOperator(@row.Id)">
+    <i class="fa-classic fa-regular fa-arrow-down-to-bracket"></i>
+    </div>
+
+    this.isOneOperatorSelected = () => {
+        return this.selectedOperatorId != null;
+    };
+
+    In addOperator bisogna anche riportare a null idDipendenteCorrente per deselezionare la voce
+     
 
     <script>
         // Seleziona tutti gli elementi select con la classe form-select
@@ -331,5 +461,5 @@
                 });
             }
         }
-    </script>
+    </script>*@
 }

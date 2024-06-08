@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Template.Services.Shared;
 
@@ -11,13 +9,10 @@ namespace Template.Web.Areas.Example.Orari
     {
         public IndexViewModel()
         {
-            Orari = Array.Empty<OrarioIndexViewModel>();
+            FasceOrarie = new List<FasceOrarie>();
         }
 
-        [Display(Name = "Cerca")]
-        public string Filter { get; set; }
-
-        public IEnumerable<OrarioIndexViewModel> Orari { get; set; }
+        public List<FasceOrarie> FasceOrarie { get; set; }
 
         public NaveDetailDTO Nave { get; set; }
 
@@ -27,7 +22,16 @@ namespace Template.Web.Areas.Example.Orari
 
         internal void SetOrari(OrariNaveSelectDTO orariIndexDTO)
         {
-            Orari = orariIndexDTO.Orari.Select(x => new OrarioIndexViewModel(x)).ToArray();
+            var orariInizio = new int[] {00, 06, 12, 18}; 
+            foreach(var orarioInizio in orariInizio)
+            {
+                FasceOrarie.Add(new FasceOrarie
+                {
+                    Etichetta = orarioInizio + " " + (orarioInizio + 6),
+                    OrarioInizio = orarioInizio,
+                    Orari = orariIndexDTO.Orari.Where(x => x.Inizio.Hour == orarioInizio).Select(x => new OrarioIndexViewModel(x)).ToArray()
+                });
+            }
         }
 
         internal void SetNave(NaveDetailDTO naveDetailDTO)
@@ -67,13 +71,17 @@ namespace Template.Web.Areas.Example.Orari
             };
         }
 
-        public OrariIndexQuery ToOrariIndexQuery()
+        public string ToJson()
         {
-            return new OrariIndexQuery
-            {
-                Filter = Filter
-            };
+            return Infrastructure.JsonSerializer.ToJsonCamelCase(this);
         }
+    }
+
+    public class FasceOrarie
+    {
+        public string Etichetta { get; set; }
+        public int OrarioInizio { get; set; }
+        public IEnumerable<OrarioIndexViewModel> Orari { get; set; }
     }
 
     public class OrarioIndexViewModel

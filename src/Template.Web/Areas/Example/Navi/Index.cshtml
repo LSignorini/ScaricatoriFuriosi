@@ -14,9 +14,11 @@
                     <div class="input-group onit-input-group-union">
                         <span class="input-group-text"><i class="fa-solid fa-fw fa-magnifying-glass"></i></span>
                         <input asp-for="Filter" class="form-control" />
-                        <select asp-for="Tipologia" name="filtro-scadenza" id="select-filtro">
-                        <option value="Tutte">Tutte</option>
-                        <option value="In scadenza">In scadenza</option>
+                    </div>
+                    <div>
+                        <select asp-for="Tipologia" id="select-filtro">
+                            <option value="Tutte">Tutte</option>
+                            <option value="In scadenza">In scadenza</option>
                         </select>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ namespace Template.Web.Areas.Example.Navi
         public EditViewModel() 
         {
             DateLavorazione = Array.Empty<DataLavorazioneEditViewModel>();
-            OrariDipendenti = Array.Empty<OrarioDipendenteEditViewModel>();
+            FasceOrarie = new List<FasceOrarie>();
             DipendentiDisponibili = Array.Empty<DipendentiDisponibiliEditViewModel>();
         }
 
@@ -34,11 +34,22 @@ namespace Template.Web.Areas.Example.Navi
         public IEnumerable<DipendentiDisponibiliEditViewModel> DipendentiDisponibili { get; set; }
 
         public Orari.IndexViewModel OrariIndexViewModel { get; set; }
+        public List<FasceOrarie> FasceOrarie { get; set; }
 
-        internal void SetDateLavorazione()
+        internal void SetDateLavorazione(OrariNaveSelectDTO orariNaveSelectDTO)
         {
+            SetOrariDipendenti(orariNaveSelectDTO);
+            List<FasceOrarie> fasceOrariePerGiorno = new List<FasceOrarie>();
             for (DateOnly giorno = DateOnly.FromDateTime(Arrivo); giorno.CompareTo(DateOnly.FromDateTime(Partenza)) < 0; giorno = giorno.AddDays(1)) {
-                IEnumerable<DataLavorazioneEditViewModel> a = Enumerable.Empty<DataLavorazioneEditViewModel>().Append(new DataLavorazioneEditViewModel(giorno));
+                foreach(FasceOrarie fasciaOraria in FasceOrarie)
+                {
+                    if(fasciaOraria.Giorno == giorno)
+                    {
+                        fasceOrariePerGiorno.Add(fasciaOraria);
+
+                    }
+                }
+                IEnumerable<DataLavorazioneEditViewModel> a = Enumerable.Empty<DataLavorazioneEditViewModel>().Append(new DataLavorazioneEditViewModel(giorno, fasceOrariePerGiorno));
                 DateLavorazione = DateLavorazione.Concat(a);
             }
         }
@@ -50,7 +61,28 @@ namespace Template.Web.Areas.Example.Navi
 
         internal void SetOrariDipendenti(OrariNaveSelectDTO orariNaveSelectDTO)
         {
-            OrariDipendenti = orariNaveSelectDTO.Orari.Select(x => new OrarioDipendenteEditViewModel(x)).ToArray();
+            var orariInizio = new int[] { 00, 06, 12, 18 };
+            int i = 0;
+            DateOnly giorno = new DateOnly();
+            foreach (var orarioInizio in orariInizio)
+            {
+                
+                if (i < orariNaveSelectDTO.Orari.Count())
+                {
+                    if(orariNaveSelectDTO.Orari.ElementAt(i) != null)
+                    {
+                        giorno = orariNaveSelectDTO.Orari.ElementAt(i++).Giorno;
+                    }                
+                }
+                FasceOrarie.Add(new FasceOrarie
+                {
+                    Etichetta = orarioInizio + "-" + (orarioInizio + 6),
+                    OrarioInizio = orarioInizio,
+                    Orari = orariNaveSelectDTO.Orari.Where(x => x.Inizio.Hour == orarioInizio).Select(x => new OrarioDipendenteEditViewModel(x)).ToArray(),
+                    Giorno = giorno
+                });
+            }
+            //OrariDipendenti = orariNaveSelectDTO.Orari.Select(x => new OrarioDipendenteEditViewModel(x)).ToArray();
         }
 
         public IEnumerable<OrarioDipendenteEditViewModel> GetOrariDipendenti() 
@@ -96,15 +128,23 @@ namespace Template.Web.Areas.Example.Navi
             }
         }
     }
-
+    public class FasceOrarie
+    {
+        public string Etichetta { get; set; }
+        public int OrarioInizio { get; set; }
+        public IEnumerable<OrarioDipendenteEditViewModel> Orari { get; set; }
+        public DateOnly Giorno { get; set; }
+    }
     public class DataLavorazioneEditViewModel
     {
-        public DataLavorazioneEditViewModel(DateOnly giorno)
+        public DataLavorazioneEditViewModel(DateOnly giorno, List<FasceOrarie> fasceOrarie)
         {
             this.Data = giorno;
+            this.FasceOrarie = fasceOrarie;
         }
 
         public DateOnly Data { get; set; }
+        public List<FasceOrarie> FasceOrarie { get; set; }
     }
 
     public class OrarioDipendenteEditViewModel

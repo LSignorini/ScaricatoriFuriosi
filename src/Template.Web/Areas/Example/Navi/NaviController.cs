@@ -61,14 +61,12 @@ namespace Template.Web.Areas.Example.Navi
 
                 model.SetNave(nave);
 
-                model.SetDateLavorazione();
-
                 var orariDipendenti = await _sharedService.Query(new IdNaveDetailQuery
                 {
                     Id = Id.Value
                 });
 
-                model.SetOrariDipendenti(orariDipendenti);
+                model.SetDateLavorazione(orariDipendenti);
 
                 IEnumerable<DipDisponibiliSelectDTO> dipendentiDisponibili = Array.Empty<DipDisponibiliSelectDTO>();
                 foreach (var data in model.GetDateLavorazione()) { 

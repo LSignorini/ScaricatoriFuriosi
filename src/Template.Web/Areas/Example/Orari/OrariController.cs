@@ -26,12 +26,12 @@ namespace Template.Web.Areas.Example.Orari
         {
             var model = new IndexViewModel();
 
-            DateOnly dataEu = new DateOnly(giorno.Year, giorno.Day, giorno.Month);
+            //DateOnly dataEu = new DateOnly(giorno.Year, giorno.Day, giorno.Month);
 
             var orariIndexQuery = new OrariIndexQuery
             {
                 IdNave = (Guid)Id,
-                Giorno = dataEu
+                Giorno = giorno
             };
             var orari = await _sharedService.Query(orariIndexQuery);
             model.SetOrari(orari);
@@ -42,11 +42,11 @@ namespace Template.Web.Areas.Example.Orari
             });
             model.SetNave(nave);
 
-            model.SetGiorno(dataEu);
+            model.SetGiorno(giorno);
 
             var dipendentiLiberi = await _sharedService.Query(new DipendentiGiornoSelectQuery
             {
-                Giorno = dataEu
+                Giorno = giorno
             });
             model.SetDipendentiLiberi(dipendentiLiberi);
 

@@ -37,71 +37,38 @@
         </div>
     </div>
 </div>
-<div>
-    @for (var i = 0; i < Model.DateLavorazione.Count(); i++ )
-    {
-        <label>@Model.DateLavorazione.ElementAt(i).Data</label>
-        <button style="float: right; margin-right: 10px;" 
-                onclick="redirectToEditOrari('@Model.Id', '@Model.DateLavorazione.ElementAt(i).Data')">
-            <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
-        </button>
-        <label style="float: right; margin-right: 10px;">Dipendenti rimanenti: @Model.DipendentiDisponibili.ElementAt(i).Numero</label> 
-        <br />
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">00 - 06</th>
-                    <th scope="col">06 - 12</th>
-                    <th scope="col">12 - 18</th>
-                    <th scope="col">18 - 24</th>
-                </tr>
-            </thead>
-            <tbody>
-                <td>
-                    @foreach (var orarioDipendente in Model.OrariDipendenti)
-                    {
-                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
-                                && orarioDipendente.Inizio == TimeOnly.Parse("00:00:00"))
-                        {
-                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
-                        }
-                    }
-                </td>
-                <td>
-                    @foreach (var orarioDipendente in Model.OrariDipendenti)
-                    {
-                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
-                                && orarioDipendente.Inizio == TimeOnly.Parse("06:00:00"))
-                        {
-                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
-                        }
-                    }
-                </td>
-                <td>
-                    @foreach (var orarioDipendente in Model.OrariDipendenti)
-                    {
-                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
-                                && orarioDipendente.Inizio == TimeOnly.Parse("12:00:00"))
-                        {
-                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
-                        }
-                    }
-                </td>
-                <td>
-                    @foreach (var orarioDipendente in Model.OrariDipendenti)
-                    {
-                        @if (orarioDipendente.Giorno == Model.DateLavorazione.ElementAt(i).Data
-                                && orarioDipendente.Inizio == TimeOnly.Parse("18:00:00"))
-                        {
-                            <div>@orarioDipendente.Nome @orarioDipendente.Cognome @orarioDipendente.Ruolo</div>
-                        }
-                    }
-                </td>                
-            </tbody>
 
-        </table>
-    }
+
+
+<div v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
+    <label>{{dataLavorazione.data}}</label>
+    <button style="float: right; margin-right: 10px;"
+            v-on:click="redirectToEditOrari(model.id, dataLavorazione.data)">
+        <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
+    </button>
+    <label style="float: right; margin-right: 10px;">Dipendenti rimanenti: {{model.dipendentiDisponibili[index].numero}}</label>
+    <br />
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" v-for="fasciaOraria in dataLavorazione.fasceOrarie">{{fasciaOraria.etichetta}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td v-for="fasciaOraria in dataLavorazione.fasceOrarie">
+                    <div v-for="orario in fasciaOraria.orari">
+                        <div class="text" v-if="orario.giorno == dataLavorazione.data">
+                            <p>{{orario.nome}} {{orario.cognome}} {{orario.ruolo}}</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+
 @section scripts{
     <script src="/js/bundle-vue.js" asp-append-version="true"></script>
     <script src="~/Areas/Example/Navi/Edit.js" asp-append-version="true"></script>
@@ -123,14 +90,12 @@
         var vueModel = new Vue({
             el: '#pageId',
             data: editModel,
-            computed: {
+            methods: {
+                redirectToEditOrari: function (idNave, giorno) {
+                    window.location.href = "/Example/Orari/?Id=" + idNave + "&giorno=" + giorno;
+                }
             }
         });
 
-    </script>
-    <script>
-        function redirectToEditOrari(idNave, giorno) {
-            window.location.href = "/Example/Orari/?Id=" + idNave + "&giorno=" + giorno;
-        }
     </script>
 }

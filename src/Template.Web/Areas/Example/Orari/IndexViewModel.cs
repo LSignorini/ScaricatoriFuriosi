@@ -27,7 +27,7 @@ namespace Template.Web.Areas.Example.Orari
             {
                 FasceOrarie.Add(new FasceOrarie
                 {
-                    Etichetta = orarioInizio + " " + (orarioInizio + 6),
+                    Etichetta = orarioInizio + "-" + (orarioInizio + 6),
                     OrarioInizio = orarioInizio,
                     Orari = orariIndexDTO.Orari.Where(x => x.Inizio.Hour == orarioInizio).Select(x => new OrarioIndexViewModel(x)).ToArray()
                 });

@@ -233,7 +233,8 @@ namespace Template.Services.Shared
                     Nome = x.Dipendente.Nome,
                     Cognome = x.Dipendente.Cognome,
                     Ruolo = x.Dipendente.Ruolo,
-                    Inizio = x.Orario.Inizio
+                    Inizio = x.Orario.Inizio,
+                    Giorno = x.Orario.Giorno
                 })
                 .ToArrayAsync();
 

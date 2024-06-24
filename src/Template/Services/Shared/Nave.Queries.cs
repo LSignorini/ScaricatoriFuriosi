@@ -234,6 +234,7 @@ namespace Template.Services.Shared
                     Data = new DateOnly(x.Arrivo.Year, x.Arrivo.Month, x.Arrivo.Day) 
                 })
                 .Distinct()
+                .OrderBy(a => a.Data)
                 .ToArrayAsync()
             };
         }

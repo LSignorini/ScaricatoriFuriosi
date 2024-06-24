@@ -35,7 +35,7 @@ namespace Template.Web.Areas.Example.Navi
             {
                 foreach (var nave in navi.Navi)
                 {
-                    if (arrivo.Data.Day == nave.Arrivo.Day && !arriviFiltrati.Contains(arrivo))
+                    if (arrivo.Data == DateOnly.FromDateTime(nave.Arrivo) && !arriviFiltrati.Contains(arrivo))
                     {
                         arriviFiltrati.Add(arrivo);
                     }

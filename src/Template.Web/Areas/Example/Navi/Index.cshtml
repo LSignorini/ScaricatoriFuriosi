@@ -51,7 +51,7 @@
                         <label>@arrivo.Arrivo</label>
                         @foreach (var nave in Model.Navi)
                         {
-                            @if (@nave.Arrivo.Day == @arrivo.Arrivo.Day)
+                            @if (DateOnly.FromDateTime(@nave.Arrivo) == @arrivo.Arrivo)
                             {
                                 <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width:100%">
                                     <div class="card-header" style="width:100%">

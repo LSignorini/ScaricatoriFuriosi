@@ -1,13 +1,9 @@
 ﻿@inject IHtmlLocalizer<Template.Web.Areas.Example.Navi.IndexViewModel> ModelLocalizer
 @model Template.Web.Areas.Example.Navi.EditViewModel
 @{
-    if (Model.Id != null)
+    if (Model.Id == null)
     {
-        ViewData["Title"] = "Nave - " + Model.Nome;
-    }
-    else
-    {
-        ViewData["Title"] = "Recupero dettaglio nave fallito! (Come te)";
+        ViewData["Title"] = "Recupero dettaglio nave fallito!";
     }
 }
 @section pageTitle{
@@ -16,14 +12,32 @@
     </div>
 }
 
-<div>
+<div class="mx-3">
+    <!--
     <div>
-        <label>Cliente: </label><b> @Model.NomeCliente</b>
-        <br /><label>Arrivo: </label><b> @Model.Arrivo</b>
-        <label>Container: </label><b> @Model.Container</b>
-        <br /><label>Partenza: </label><b> @Model.Partenza</b>
-        <label>Bancali: </label><b> @Model.Bancali</b>
+        <h1>@Model.Nome</h1>
+        <label class="fs-4 mb-3">Cliente: </label><b class="fs-4"> @Model.NomeCliente</b>
+        <br /><label class="fs-5">Arrivo: </label><b class="fs-5"> @Model.Arrivo</b>
+        <label class="fs-5 ms-5">Container: </label><b class="fs-5"> @Model.Container</b>
+        <br /><label class="fs-5">Partenza: </label><b class="fs-5"> @Model.Partenza</b>
+        <label class="fs-5 ms-5">Bancali: </label><b class="fs-5"> @Model.Bancali</b>
     </div>
+    -->
+    <div class="container">
+        <h1>@Model.Nome</h1>
+        <div class="row mb-3">
+            <div class="col-1"><label class="fs-4">Cliente:</label><b class="fs-4">@Model.NomeCliente</b></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-1"><label class="fs-5">Arrivo:</label><b class="fs-5">@Model.Arrivo</b></div>
+            <div class="col-4"><label class="fs-5">Container:</label><b class="fs-5">@Model.Container</b></div>
+        </div>
+        <div class="row">
+            <div class="col-1"><label class="fs-5">Partenza:</label><b class="fs-5">@Model.Partenza</b></div>
+            <div class="col-4"><label class="fs-5">Bancali:</label><b class="fs-5">@Model.Bancali</b></div>
+        </div>
+    </div>
+
 
     <div class="text-center">
         <div id="lostConnection" class="d-none text-white">
@@ -40,7 +54,7 @@
 
 
 
-<div v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
+<div class="mx-3" v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
     <label>{{dataLavorazione.data}}</label>
     <button style="float: right; margin-right: 10px;"
             v-on:click="redirectToEditOrari(model.id, dataLavorazione.data)">

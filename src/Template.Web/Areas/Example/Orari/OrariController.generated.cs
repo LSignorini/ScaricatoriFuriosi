@@ -83,6 +83,20 @@ namespace Template.Web.Areas.Example.Orari
             return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.Index);
         }
 
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult addOrarioToDipendente()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.addOrarioToDipendente);
+        }
+
+        [NonAction]
+        [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
+        public virtual IActionResult removeOrarioDipendente()
+        {
+            return new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.removeOrarioDipendente);
+        }
+
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public OrariController Actions => MVC.Example.Orari;
         [GeneratedCode("R4Mvc", "1.0")]
@@ -99,12 +113,16 @@ namespace Template.Web.Areas.Example.Orari
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string addOrarioToDipendente = "addOrarioToDipendente";
+            public readonly string removeOrarioDipendente = "removeOrarioDipendente";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string addOrarioToDipendente = "addOrarioToDipendente";
+            public const string removeOrarioDipendente = "removeOrarioDipendente";
         }
 
         [GeneratedCode("R4Mvc", "1.0"), DebuggerNonUserCode]

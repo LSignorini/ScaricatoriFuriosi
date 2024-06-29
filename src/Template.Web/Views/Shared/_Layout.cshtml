@@ -14,7 +14,60 @@
 }
 <div id="pageId" class="onit-page">
     <div class="onit-page-sticky-top" id="onit-page-sticky-top">
-        <nav id="nav" class="navbar navbar-expand-lg navbar-dark onit-page-menu">
+        <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white ms-2 me-4">
+            <a class="navbar-brand" href="/">
+                <img src="/images/logoNave.png" width="100" height="100" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-3" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link fs-2" href="/">Navi <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-2" href="/Example/Dipendenti">Dipendenti</a>
+                    </li>
+                </ul>
+                @if (identitaCorrente != null)
+                {
+                    <div id="logout-button" class="ms-auto">
+                        <a class="item fs-2" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
+                            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Esci"]
+                        </a>
+                        <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" display="none"></form>
+                    </div>
+                }
+            </div>
+        </nav>
+        @RenderSection("pageTitle", false)
+    </div>
+    @RenderSection("pageSubtitle", false)
+    @RenderBody()
+</div>
+@section googlehead{
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-', { 'anonymize_ip': true });    // Ricordarsi di anonimizzare per fare ricadere il cookie tra quelli tecnici ed evitare l'obbligo del banner
+    </script>*@
+    }
+@section scripts{
+    <script type="text/javascript">
+        @this.RenderAlertsWithToastify()
+    </script>
+
+    @RenderSection("scripts", false)
+}
+
+
+
+ <!--
+
+ <nav id="nav" class="navbar navbar-expand-lg navbar-dark onit-page-menu">
             <div class="container-fluid">
                 <div id="logo">
                     <img id="logo-nave" alt="" src="/images/image.png" />
@@ -49,24 +102,4 @@
                 </div>
             </div>
         </nav>
-        @RenderSection("pageTitle", false)
-    </div>
-    @RenderSection("pageSubtitle", false)
-    @RenderBody()
-</div>
-@section googlehead{
-    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-', { 'anonymize_ip': true });    // Ricordarsi di anonimizzare per fare ricadere il cookie tra quelli tecnici ed evitare l'obbligo del banner
-    </script>*@
-    }
-@section scripts{
-    <script type="text/javascript">
-        @this.RenderAlertsWithToastify()
-    </script>
-
-    @RenderSection("scripts", false)
-}
+ -->

@@ -14,7 +14,6 @@ namespace Template.Web.Areas.Example.Navi
             Arrivi = Array.Empty<ArriviIndexViewModel>();
         }
 
-        [Display(Name = "Cerca")]
         public string Filter { get; set; }
         public string Tipologia { get; set; }
 

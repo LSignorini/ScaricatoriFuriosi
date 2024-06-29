@@ -4,16 +4,15 @@
     ViewData["Title"] = "Navi";
 }
 @section pageSubtitle{
-    <nav class="navbar navbar-expand navbar-light flex-wrap onit-page-subtitle">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white onit-page-subtitle ms-3 mt-3">
         <form method="get" id="annullaRicerca">
         </form>
         <form class="onit-form-search" method="get" autocomplete="off">
-            <div class="row">
-                <div class="col-sm-auto onit-form-search-col-auto-2x">
-                    <label asp-for="Filter"></label>
-                    <div class="input-group onit-input-group-union">
+            <div class="collapse navbar-collapse">
+                <div class="col-sm-auto onit-form-search-col-auto-2x navbar-nav me-4">
+                    <div class="input-group onit-input-group-union me-4">
                         <span class="input-group-text"><i class="fa-solid fa-fw fa-magnifying-glass"></i></span>
-                        <input asp-for="Filter" class="form-control" />
+                        <input asp-for="Filter" class="form-control" placeholder="Cerca..."/>
                     </div>
                     <div>
                         <select asp-for="Tipologia" id="select-filtro">
@@ -23,9 +22,8 @@
                     </div>
                 </div>
 
-
-                <div class="col-sm-auto pt-2 mt-auto">
-                    <button class="btn btn-primary" type="submit">
+                <div class="col-sm-auto onit-form-search-col-auto-2x navbar-nav">
+                    <button class="btn btn-primary me-2 px-3" type="submit">
                         Cerca
                     </button>
                     <button class="btn btn-link" type="button" title="Annulla tutti i parametri della ricerca" onclick="document.getElementById('annullaRicerca').submit();">
@@ -48,23 +46,39 @@
                 {
                     @foreach (var arrivo in Model.Arrivi)
                     {
-                        <label>@arrivo.Arrivo</label>
+                        <label class="fs-3 fw-bold mb-2 mt-3">@arrivo.Arrivo</label>
                         @foreach (var nave in Model.Navi)
                         {
                             @if (DateOnly.FromDateTime(@nave.Arrivo) == @arrivo.Arrivo)
                             {
-                                <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width:100%">
-                                    <div class="card-header" style="width:100%">
-                                        @nave.Nome
-                                    </div>
-                                    <div class="card-body">
-                                        <blockquote class="blockquote mb-0">
-                                            <p style="text-align:start">@nave.NomeCliente</p>
-                                            <p style="text-align:start">@nave.Arrivo</p>
-                                            <p style="text-align:start">@nave.Partenza</p>
-                                        </blockquote>
-                                    </div>
-                                </button>
+                                @if (@nave.Partenza <= DateTime.Now.AddDays(7))
+                                {
+                                    <button class="card mb-3" onclick="redirectToEditNave('@nave.Id')" style="width:100%; background-color: #ffe9e9">
+                                        <div class="card-header" style="width:100%; background-color: #ff5858">
+                                            @nave.Nome
+                                        </div>
+                                        <div class="card-body">
+                                            <blockquote class="blockquote mb-0">
+                                                <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                            </blockquote>
+                                        </div>
+                                    </button>
+                                } else {
+                                    <button class="card mb-3" onclick="redirectToEditNave('@nave.Id')" style="width:100%; background-color: #f1f5ff">
+                                        <div class="card-header" style="width:100%; background-color: #7096ff">
+                                            @nave.Nome
+                                        </div>
+                                        <div class="card-body">
+                                            <blockquote class="blockquote mb-0">
+                                                <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                            </blockquote>
+                                        </div>
+                                    </button>
+                                }
                             }
                         }
                     }

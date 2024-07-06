@@ -13,31 +13,36 @@
 }
 
 <div class="mx-3">
-    <!--
-    <div>
-        <h1>@Model.Nome</h1>
-        <label class="fs-4 mb-3">Cliente: </label><b class="fs-4"> @Model.NomeCliente</b>
-        <br /><label class="fs-5">Arrivo: </label><b class="fs-5"> @Model.Arrivo</b>
-        <label class="fs-5 ms-5">Container: </label><b class="fs-5"> @Model.Container</b>
-        <br /><label class="fs-5">Partenza: </label><b class="fs-5"> @Model.Partenza</b>
-        <label class="fs-5 ms-5">Bancali: </label><b class="fs-5"> @Model.Bancali</b>
-    </div>
-    -->
-    <div class="container">
-        <h1>@Model.Nome</h1>
+
+    <div class="container" style="margin-left: 0px; margin-bottom: 50px; margin-top: 20px">
+        <h1 style="margin-bottom: 0px; padding-bottom: 0px">@Model.Nome</h1>
         <div class="row mb-3">
-            <div class="col-1"><label class="fs-4">Cliente:</label><b class="fs-4">@Model.NomeCliente</b></div>
+            <div class="col-12">
+                <label class="fs-4">Cliente:</label>
+                <b class="fs-4">@Model.NomeCliente</b>
+            </div>
         </div>
         <div class="row mb-3">
-            <div class="col-1"><label class="fs-5">Arrivo:</label><b class="fs-5">@Model.Arrivo</b></div>
-            <div class="col-4"><label class="fs-5">Container:</label><b class="fs-5">@Model.Container</b></div>
+            <div class="col-6 col-md-3">
+                <label class="fs-5">Arrivo:</label>
+                <b class="fs-5">@Model.Arrivo</b>
+            </div>
+            <div class="col-6 col-md-3 offset-md-2">
+                <label class="fs-5">Container:</label>
+                <b class="fs-5">@Model.Container</b>
+            </div>
         </div>
         <div class="row">
-            <div class="col-1"><label class="fs-5">Partenza:</label><b class="fs-5">@Model.Partenza</b></div>
-            <div class="col-4"><label class="fs-5">Bancali:</label><b class="fs-5">@Model.Bancali</b></div>
+            <div class="col-6 col-md-3">
+                <label class="fs-5">Partenza:</label>
+                <b class="fs-5">@Model.Partenza</b>
+            </div>
+            <div class="col-6 col-md-3 offset-md-2">
+                <label class="fs-5">Bancali:</label>
+                <b class="fs-5">@Model.Bancali</b>
+            </div>
         </div>
     </div>
-
 
     <div class="text-center">
         <div id="lostConnection" class="d-none text-white">
@@ -52,28 +57,26 @@
     </div>
 </div>
 
-
-
 <div class="mx-3" v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
-    <label>{{dataLavorazione.data}}</label>
-    <button style="float: right; margin-right: 10px;"
+    <label class="fs-5">{{dataLavorazione.data}}</label>
+    <button style="float: right; margin-bottom: 10px"
             v-on:click="redirectToEditOrari(model.id, dataLavorazione.data)">
         <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
     </button>
-    <label style="float: right; margin-right: 10px;">Dipendenti rimanenti: {{model.dipendentiDisponibili[index].numero}}</label>
+    <label class="fs-5" style="float: right; margin-right: 15px;">Dipendenti rimanenti: {{model.dipendentiDisponibili[index].numero}}</label>
     <br />
-    <table class="table">
-        <thead class="thead-light">
+    <table class="table" style="margin-bottom: 30px">
+        <thead class="table-info">
             <tr>
-                <th scope="col" v-for="fasciaOraria in dataLavorazione.fasceOrarie">{{fasciaOraria.etichetta}}</th>
+                <th class="text-center" scope="col" style="width: 25%" v-for="fasciaOraria in dataLavorazione.fasceOrarie">{{fasciaOraria.etichetta}}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td v-for="fasciaOraria in dataLavorazione.fasceOrarie">
+                <td class="text-center" style="width: 25%" v-for="fasciaOraria in dataLavorazione.fasceOrarie">
                     <div v-for="orario in fasciaOraria.orari">
                         <div class="text" v-if="orario.giorno == dataLavorazione.data">
-                            <p>{{orario.nome}} {{orario.cognome}} {{orario.ruolo}}</p>
+                            <p>{{orario.nome}} {{orario.cognome}} - {{orario.ruolo}}</p>
                         </div>
                     </div>
                 </td>

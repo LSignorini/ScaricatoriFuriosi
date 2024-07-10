@@ -9,40 +9,58 @@
     ViewData["Patente"] = Model.Patente;
 }
 
-<div>
-    <section>
+<div class="mx-3">
+    <div class="mb-4">
         <div class="navbar-brand text-truncate">
             <h1>@ViewData["Dipendente"]</h1>
-            <h3>@ViewData["Ruolo"]</h3>
+            <h2 class="fs-4 mb-3">@ViewData["Ruolo"]</h2>
         </div>
         <div>
-            <label>Data di nascita: @ViewData["DataNascita"]</label>
-            <label>Codice Fiscale: @ViewData["CF"]</label>
+            <label class="fs-5 mb-1">Data di nascita: </label>
+            <b class="fs-5"> @ViewData["DataNascita"]</b>
+            <br />
+            <label class="fs-5">Codice Fiscale: </label>
+            <b class="fs-5"> @ViewData["CF"]</b>
         </div>
-    </section>
+    </div>
 
-    <section>
-        <h2>ORARI:</h2>
-        <div class="lista-assegnazioni">
+    <div class="mb-5">
+        <h2 class="fs-4">Orari:</h2>
+        <div class="lista-assegnazioni mb-3">
             @if (Model.Orari.Count() > 0)
             {
                 @foreach (var orario in Model.Orari)
                 {
-                    <div class="assegnazione">              
-                        <label class="giorno"> @orario.Giorno </label>
-                        <label class="turno"> @orario.Inizio - @orario.Fine          @orario.NomeNave</label>               
-                    </div>  
+                    <div class="container mb-1 ms-2" style="margin-left: 0px; padding-left: 0px">
+                        <div class="row">
+                            <div class="col-2">
+                                <label class="fs-5">Giorno:</label><b class="fs-5"> @orario.Giorno </b>
+                            </div>
+                            <div class="col-2">
+                                <label class="fs-5">Orario:</label><b class="fs-5"> @orario.Inizio - @orario.Fine </b>
+                            </div>
+                            <div class="col-2">
+                                <label class="fs-5">Nave:</label><b class="fs-5"> @orario.NomeNave</b>
+                            </div>
+                        </div>    
+                    </div>
+
+                    @* <div class="assegnazione mb-2">
+                        <label class="fs-5">Giorno: </label><b class="fs-5">@orario.Giorno </b>
+                        <label class="fs-5">Orario: </label><b class="fs-5">@orario.Inizio - @orario.Fine </b>
+                        <label class="fs-5">           Nave: </label><b class="fs-5">@orario.NomeNave</b>
+                    </div> *@  
                 }
                
             }
             @if (Model.Orari.Count() <= 0)
             {
                 <div class="nessuna-assegnazione">
-                    <label class="vuota">Nessun turno assegnato</label>
+                    <label class="fs-5">Nessun turno assegnato</label>
                 </div>
             }
         </div>
-    </section>
+    </div>
 
     <aside class="certificati">
         <div class="card">

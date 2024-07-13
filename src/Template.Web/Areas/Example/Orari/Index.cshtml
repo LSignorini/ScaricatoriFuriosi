@@ -43,14 +43,19 @@
             <div class="py-3 px-3" style="background-color: #a5bdff">
                 <h3>Dipendenti</h3>
             </div>
-            <div style="background-color: #f1f5ff" v-for="dipendentiLiberi in model.model.dipendentiLiberi">
-                <h4 class="pt-3 pb-2 ps-3">{{dipendentiLiberi.ruolo}}</h4>
-                <div class="list-group">
-                    <div v-for="dipendenteLibero in dipendentiLiberi.dipendenti">
-                        <a href="#" class="list-group-item list-group-item-action" aria-current="true"
-                           v-on:click="toggleOperator(dipendenteLibero.id)" v-bind:class="{'active' : isOperatorSelected(dipendenteLibero.id)}">{{dipendenteLibero.nome}} {{dipendenteLibero.cognome}}</a>
+            <div v-if="model.model.dipendentiLiberi.length > 0">
+                <div style="background-color: #f1f5ff" v-for="dipendentiLiberi in model.model.dipendentiLiberi">
+                    <h4 class="pt-3 pb-2 ps-3">{{dipendentiLiberi.ruolo}}</h4>
+                    <div class="list-group">
+                        <div v-for="dipendenteLibero in dipendentiLiberi.dipendenti">
+                            <a href="#" class="list-group-item list-group-item-action" aria-current="true"
+                               v-on:click="toggleOperator(dipendenteLibero.id)" v-bind:class="{'active' : isOperatorSelected(dipendenteLibero.id)}">{{dipendenteLibero.nome}} {{dipendenteLibero.cognome}}</a>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div v-else>
+                <h4 class="pt-3 pb-2 ps-3 fs-5">Nessun dipendente disponibile</h4>
             </div>
         </aside>
         <div class="col-9 main-content">

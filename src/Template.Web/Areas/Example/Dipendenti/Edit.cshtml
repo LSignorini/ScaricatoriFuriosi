@@ -9,73 +9,104 @@
     ViewData["Patente"] = Model.Patente;
 }
 
-<div class="mx-3">
-    <div class="mb-4">
-        <div class="navbar-brand text-truncate">
-            <h1>@ViewData["Dipendente"]</h1>
-            <h2 class="fs-4 mb-3">@ViewData["Ruolo"]</h2>
-        </div>
-        <div>
-            <label class="fs-5 mb-1">Data di nascita: </label>
-            <b class="fs-5"> @ViewData["DataNascita"]</b>
-            <br />
-            <label class="fs-5">Codice Fiscale: </label>
-            <b class="fs-5"> @ViewData["CF"]</b>
-        </div>
-    </div>
-
-    <div class="mb-5">
-        <h2 class="fs-4">Orari:</h2>
-        <div class="lista-assegnazioni mb-3">
-            @if (Model.Orari.Count() > 0)
-            {
-                @foreach (var orario in Model.Orari)
-                {
-                    <div class="container mb-1 ms-2" style="margin-left: 0px; padding-left: 0px">
-                        <div class="row">
-                            <div class="col-2">
-                                <label class="fs-5">Giorno:</label><b class="fs-5"> @orario.Giorno </b>
-                            </div>
-                            <div class="col-2">
-                                <label class="fs-5">Orario:</label><b class="fs-5"> @orario.Inizio - @orario.Fine </b>
-                            </div>
-                            <div class="col-2">
-                                <label class="fs-5">Nave:</label><b class="fs-5"> @orario.NomeNave</b>
-                            </div>
-                        </div>    
+<div class="container-fluid">
+    <div class="row">
+        <!-- Contenuto principale -->
+        <div class="col-8">
+            <div class="mx-3 mt-3">
+                <div class="mb-4">
+                    <div class="navbar-brand text-truncate">
+                        <h1>@ViewData["Dipendente"]</h1>
+                        <h2 class="fs-4 mb-3">@ViewData["Ruolo"]</h2>
                     </div>
-
-                    @* <div class="assegnazione mb-2">
-                        <label class="fs-5">Giorno: </label><b class="fs-5">@orario.Giorno </b>
-                        <label class="fs-5">Orario: </label><b class="fs-5">@orario.Inizio - @orario.Fine </b>
-                        <label class="fs-5">           Nave: </label><b class="fs-5">@orario.NomeNave</b>
-                    </div> *@  
-                }
-               
-            }
-            @if (Model.Orari.Count() <= 0)
-            {
-                <div class="nessuna-assegnazione">
-                    <label class="fs-5">Nessun turno assegnato</label>
+                    <div>
+                        <label class="fs-5 mb-1">Data di nascita: </label>
+                        <b class="fs-5"> @ViewData["DataNascita"]</b>
+                        <br />
+                        <label class="fs-5">Codice Fiscale: </label>
+                        <b class="fs-5"> @ViewData["CF"]</b>
+                    </div>
                 </div>
-            }
-        </div>
-    </div>
 
-    <aside class="certificati">
-        <div class="card">
-            <h2 class="card-header">Visita Medica</h2>
-            <label class="card-body">Scadenza:</label>
-            <input type="text" id="visitaMedica" class="card-body" value="@ViewData["VisitaMedica"]" readonly />
-            <button id="editVisita"><img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /></button>
+                <div>
+                    <h2 class="fs-4 ms-2 mb-3">Orari:</h2>
+                    <div class="lista-assegnazioni">
+                        @if (Model.Orari.Count() > 0)
+                        {
+                            @foreach (var orario in Model.Orari)
+                            {
+                                <div class="container mb-1 ms-4" style="margin-left: 0px; padding-left: 0px">
+                                    <div class="row">
+                                        <div class="col-3 me-1">
+                                            <label class="fs-5">Giorno:</label><b class="fs-5"> @orario.Giorno </b>
+                                        </div>
+                                        <div class="col-3 me-1">
+                                            <label class="fs-5">Orario:</label><b class="fs-5"> @orario.Inizio - @orario.Fine </b>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="fs-5">Nave:</label><b class="fs-5"> @orario.NomeNave</b>
+                                        </div>
+                                    </div>    
+                                </div> 
+                            }
+               
+                        }
+                        @if (Model.Orari.Count() <= 0)
+                        {
+                            <div class="nessuna-assegnazione">
+                                <label class="fs-5">Nessun turno assegnato</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <h2 class="card-header">Patente</h2>
-            <label class="card-body">Scadenza:</label>
-            <input type="text" id="patente" class="card-body" value="@ViewData["Patente"]" readonly />
-            <button id="editPatente"><img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /></button>
-        </div>
-    </aside>
+
+        <aside class="col-3 me-1 mt-4">
+            <div class="card mb-5">
+                @if (Model.VisitaMedica <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #ff5858">Visita Medica</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #ffe9e9">Scadenza:</label>
+                    <input type="text" id="visitaMedica" class="card-body text-center d-block fs-4" value="@ViewData["VisitaMedica"]" readonly style="width:100%; background-color: #ffe9e9" />
+                    <button class="btn text-center d-block" id="editVisita" style="background-color: #ff5858">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                } else
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #7096ff">Visita Medica</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #f1f5ff">Scadenza:</label>
+                    <input type="text" id="visitaMedica" class="card-body text-center d-block fs-4" value="@ViewData["VisitaMedica"]" readonly style="width:100%; background-color: #f1f5ff" />
+                    <button class="btn text-center d-block" id="editVisita" style="background-color: #7096ff">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                }
+            </div>
+            <div class="card">
+                @if (Model.Patente <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #ff5858">Patente</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #ffe9e9">Scadenza:</label>
+                    <input type="text" id="patente" class="card-body text-center d-block fs-4" value="@ViewData["Patente"]" readonly style="width:100%; background-color: #ffe9e9" />
+                    <button class="btn text-center d-block" id="editPatente" style="background-color: #ff5858">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                } else
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #7096ff">Patente</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #f1f5ff">Scadenza:</label>
+                    <input type="text" id="patente" class="card-body text-center d-block fs-4" value="@ViewData["Patente"]" readonly style="width:100%; background-color: #f1f5ff" />
+                    <button class="btn text-center d-block" id="editPatente" style="background-color: #7096ff">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                }
+            </div>
+        </aside>
+    </div>
 </div>
 
 
@@ -151,6 +182,8 @@
                     },
                     success: function (response) {
                         alert("Data modificata con successo!");
+                        // Ricarica la pagina
+                        location.reload();
                     },
                     error: function () {
                         alert("Si è verificato un errore durante la modifica della data.");

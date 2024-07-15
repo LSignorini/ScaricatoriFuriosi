@@ -64,7 +64,7 @@
 
         <aside class="col-3 me-1 mt-4">
             <div class="card mb-5">
-                @if (Model.VisitaMedica <= DateOnly.FromDateTime(DateTime.Now))
+                @if (Model.VisitaMedica < DateOnly.FromDateTime(DateTime.Now))
                 {
                     <h2 class="card-header text-center d-block" style="background-color: #ff5858">Visita Medica</h2>
                     <label class="card-body text-center d-block fs-4" style="background-color: #ffe9e9">Scadenza:</label>
@@ -73,7 +73,18 @@
                         Modifica
                         @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
                     </button>
-                } else
+                }                 
+                @if (Model.VisitaMedica <= DateOnly.FromDateTime(DateTime.Now).AddDays(7) && Model.VisitaMedica >= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #ffe454">Visita Medica</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #fff5cc">Scadenza:</label>
+                    <input type="text" id="visitaMedica" class="card-body text-center d-block fs-4" value="@ViewData["VisitaMedica"]" readonly style="width:100%; background-color: #ffe9e9" />
+                    <button class="btn text-center d-block" id="editVisita" style="background-color: #ffe454">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                }
+                @if (Model.VisitaMedica > DateOnly.FromDateTime(DateTime.Now).AddDays(7))
                 {
                     <h2 class="card-header text-center d-block" style="background-color: #7096ff">Visita Medica</h2>
                     <label class="card-body text-center d-block fs-4" style="background-color: #f1f5ff">Scadenza:</label>
@@ -85,7 +96,7 @@
                 }
             </div>
             <div class="card">
-                @if (Model.Patente <= DateOnly.FromDateTime(DateTime.Now))
+                @if (Model.Patente < DateOnly.FromDateTime(DateTime.Now))
                 {
                     <h2 class="card-header text-center d-block" style="background-color: #ff5858">Patente</h2>
                     <label class="card-body text-center d-block fs-4" style="background-color: #ffe9e9">Scadenza:</label>
@@ -94,7 +105,18 @@
                         Modifica
                         @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
                     </button>
-                } else
+                }
+                @if (Model.Patente <= DateOnly.FromDateTime(DateTime.Now).AddDays(7) && Model.Patente >= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    <h2 class="card-header text-center d-block" style="background-color: #ffe454">Patente</h2>
+                    <label class="card-body text-center d-block fs-4" style="background-color: #fff5cc">Scadenza:</label>
+                    <input type="text" id="patente" class="card-body text-center d-block fs-4" value="@ViewData["Patente"]" readonly style="width:100%; background-color: #f1f5ff" />
+                    <button class="btn text-center d-block" id="editPatente" style="background-color: #ffe454">
+                        Modifica
+                        @* <img src="~/images/pencil.png" alt="modifica" style="width: 50px; height: 50px;" /> *@
+                    </button>
+                }
+                @if (Model.Patente > DateOnly.FromDateTime(DateTime.Now).AddDays(7))
                 {
                     <h2 class="card-header text-center d-block" style="background-color: #7096ff">Patente</h2>
                     <label class="card-body text-center d-block fs-4" style="background-color: #f1f5ff">Scadenza:</label>
@@ -165,6 +187,7 @@
 
                 var visitaMedica = $("#visitaMedica").val();
                 var patente = $("#patente").val();
+                
                 eseguiModificaData(visitaMedica, patente);
             });
 

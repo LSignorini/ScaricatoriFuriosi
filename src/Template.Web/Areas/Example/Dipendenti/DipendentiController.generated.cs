@@ -181,6 +181,19 @@ namespace Template.Web.Areas.Example.Dipendenti
             EditOverride(callInfo, Id);
             return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
         }
+
+        [NonAction]
+        partial void ModificaDataOverride(R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult callInfo, string id, string visitaMedica, string patente);
+        [NonAction]
+        public override System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ModificaData(string id, string visitaMedica, string patente)
+        {
+            var callInfo = new R4Mvc_Microsoft_AspNetCore_Mvc_ActionResult(Area, Name, ActionNames.ModificaData);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "visitaMedica", visitaMedica);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "patente", patente);
+            ModificaDataOverride(callInfo, id, visitaMedica, patente);
+            return System.Threading.Tasks.Task.FromResult<Microsoft.AspNetCore.Mvc.IActionResult>(callInfo);
+        }
     }
 }
 #pragma warning restore 1591, 3008, 3009, 0108

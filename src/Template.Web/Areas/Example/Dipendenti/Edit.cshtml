@@ -208,8 +208,17 @@
                         // Ricarica la pagina
                         location.reload();
                     },
-                    error: function () {
-                        alert("Si è verificato un errore durante la modifica della data.");
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        let errorMessage = "Si è verificato un errore durante la modifica della data.\n \n";
+                        errorMessage += "Dettagli: " + jqXHR.responseText;
+
+                        alert(errorMessage);
+
+                        console.error("Errore AJAX:", textStatus, errorThrown);
+                        console.error("Dettagli dell'errore:", jqXHR.responseText);
+
+                        location.reload();
+
                     }
                 });
             }

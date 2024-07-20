@@ -57,16 +57,13 @@ namespace Template.Web.Areas.Example.Dipendenti
             }
         }
 
-        public UpdateDipendentiCommand ToUpdateDipendenteCommand(Guid id, string visitaMedica, string patente)
+        public UpdateDipendentiCommand ToUpdateDipendenteCommand(Guid id, DateOnly visitaMedica, DateOnly patente)
         {
-            DateOnly scadenzaVisitaMedica = DateOnly.Parse(visitaMedica);
-            DateOnly scadenzaPatente = DateOnly.Parse(patente);
-
             return new UpdateDipendentiCommand
             {
                 Id = id,
-                VisitaMedica = scadenzaVisitaMedica,
-                Patente = scadenzaPatente
+                VisitaMedica = visitaMedica,
+                Patente = patente
             };
         }
     }

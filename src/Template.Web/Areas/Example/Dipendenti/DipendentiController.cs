@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Template.Infrastructure.AspNetCore;
 using Template.Services.Shared;
@@ -95,26 +96,37 @@ namespace Template.Web.Areas.Example.Dipendenti
         }
         */
         [HttpPost]
-        public virtual async void ModificaData(string id, string visitaMedica, string patente)
+        public virtual async Task<IActionResult> ModificaData(string id, string visitaMedica, string patente)
         {
             var viewModel = new EditViewModel();
             Guid guidId = Guid.Parse(id);
-            
+            var arrayVisitaMedica = visitaMedica.Split('/');
+            var arrayPatente = patente.Split("/");
             try
             {
-                var idTurno = await _sharedService.Handle(viewModel.ToUpdateDipendenteCommand(guidId, visitaMedica, patente));
-
-                // Esempio lancio di un evento SignalR
-                await _publisher.Publish(new NewMessageEvent
+                if (arrayVisitaMedica.Count() == 3 && arrayPatente.Count() == 3)
                 {
-                    IdGroup = (Guid)idTurno,
-                    IdUser = (Guid)idTurno,
-                    IdMessage = Guid.NewGuid()
-                });
+                    var dataVisitaMedica = new DateOnly(int.Parse(arrayVisitaMedica[2]), int.Parse(arrayVisitaMedica[1]), int.Parse(arrayVisitaMedica[0]));
+                    var dataPatente = new DateOnly(int.Parse(arrayPatente[2]), int.Parse(arrayPatente[1]), int.Parse(arrayPatente[0]));
+                    var idTurno = await _sharedService.Handle(viewModel.ToUpdateDipendenteCommand(guidId, dataVisitaMedica, dataPatente));
+
+                    // Esempio lancio di un evento SignalR
+                    await _publisher.Publish(new NewMessageEvent
+                    {
+                        IdGroup = (Guid)idTurno,
+                        IdUser = (Guid)idTurno,
+                        IdMessage = Guid.NewGuid()
+                    });
+                    return Ok();   
+                }
+                else
+                {
+                    throw new Exception("Formato della data non valido.");
+                }
             }
             catch (Exception e)
             {
-                ModelState.AddModelError(string.Empty, e.Message);
+                return StatusCode(500, e.Message);
             }
         }
     }

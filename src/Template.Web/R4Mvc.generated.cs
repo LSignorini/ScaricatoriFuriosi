@@ -101,8 +101,10 @@ public static partial class Links
         public const string UrlPath = "~/images";
         public static string Url() => R4MvcHelpers.ProcessVirtualPath(UrlPath);
         public static string Url(string fileName) => R4MvcHelpers.ProcessVirtualPath(UrlPath + "/" + fileName);
-        public static readonly string image_png = Url("image.png");
+        public static readonly string frecciaDestra_png = Url("frecciaDestra.png");
+        public static readonly string logoNave_png = Url("logoNave.png");
         public static readonly string pencil_png = Url("pencil.png");
+        public static readonly string scaricatoriFuriosi_png = Url("scaricatoriFuriosi.png");
     }
 
     public static partial class js

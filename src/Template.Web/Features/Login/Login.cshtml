@@ -1,6 +1,7 @@
 ﻿@model Template.Web.Features.Login.LoginViewModel
 @{
     ViewData["Title"] = "Login";
+	var imagePath = Url.Content("~/images/scaricatoriFuriosi.png");
 }
 
 
@@ -74,16 +75,21 @@
             </div>
         </div>
     </form>
-</div> *@
+</div> 
+
+~ /images/scaricatoriFuriosi.png
+*@
 
 <style>
 	body {
 		margin: 0;
-		color: #6a6f8c;
-		background: url(~/images/scaricatoriFuriosi.png);
-		font: 600 16px/18px 'Open Sans',sans-serif;
+		color: black;
+		background: url('@imagePath') no-repeat center center;
+		background-size: 100% 100%;
+		font: 600 16px/18px;
 	}
 
+    
 	*, :after, :before {
 		box-sizing: border-box
 	}
@@ -148,11 +154,13 @@
 			display: block;
 			border-bottom: 2px solid transparent;
 			text-align: center;
+			color: black;
+			text-decoration: solid;
 		}
 
 		.login-html .sign-in:checked + .tab{
-			color: #fff;
-			border-color: #1161ee;
+			color: black;
+			border-color: black;
 		}
 
 	.login-form {
@@ -167,19 +175,24 @@
 		}
 
 			.login-form .group .label,
-			.login-form .group .input,
-			.login-form .group .button {
+			.login-form .group .input{
 				width: 100%;
-				color: #fff;
+				color: black;
 				display: block;
 			}
+
+				.login-form .group .button{
+				width: 100%;
+				color: white;
+				display: block;
+				}
 
 			.login-form .group .input,
 			.login-form .group .button {
 				border: none;
 				padding: 15px 20px;
 				border-radius: 25px;
-				background: rgba(255,255,255,.1);
+				background-color: white;
 			}
 
 			.login-form .group input[data-type="password"] {
@@ -188,61 +201,13 @@
 			}
 
 			.login-form .group .label {
-				color: #aaa;
+				color: black;
 				font-size: 12px;
 			}
 
 			.login-form .group .button {
-				background: #1161ee;
+				background: black;
 			}
-
-		.login-form .form-group .form-check label .icon {
-				width: 15px;
-				height: 15px;
-				border-radius: 2px;
-				position: relative;
-				display: inline-block;
-				background: rgba(255,255,255,.1);
-			}
-
-		.login-form .form-group .form-check label .icon:before,
-				.login-form .form-group .form-check label .icon:after {
-					content: '';
-					width: 10px;
-					height: 2px;
-					background: #fff;
-					position: absolute;
-					transition: all .2s ease-in-out 0s;
-				}
-
-		.login-form .form-group .form-check label .icon:before {
-					left: 3px;
-					width: 5px;
-					bottom: 6px;
-					transform: scale(0) rotate(0);
-				}
-
-		.login-form .form-group .form-check label .icon:after {
-					top: 6px;
-					right: 0;
-					transform: scale(0) rotate(0);
-				}
-
-			.login-form .form-group .form-check .check:checked + label {
-				color: #fff;
-			}
-
-			.login-form .form-group .form-check .check:checked + label .icon {
-					background: #1161ee;
-				}
-
-				.login-form .form-group .form-check .check:checked + label .icon:before {
-						transform: scale(1) rotate(45deg);
-					}
-
-				.login-form .form-group .form-check .check:checked + label .icon:after {
-						transform: scale(1) rotate(-45deg);
-					}
 
 	.hr {
 		height: 2px;

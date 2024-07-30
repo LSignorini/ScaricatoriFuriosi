@@ -45,6 +45,8 @@
                             <th>
                                 @ModelLocalizer["Ruolo"]&nbsp;
                             </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,12 +68,10 @@
                                         @dipendente.Cognome
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            <span>@dipendente.Ruolo</span>
-                                            <div class="ms-auto">
-                                                <img id="arrow-image" src="~/images/frecciaDestra.png" style="width: 25px; height: 25px;" alt="modifica" />
-                                            </div>
-                                        </div>
+                                        @dipendente.Ruolo
+                                    </td>
+                                    <td class="d-flex justify-content-start align-items-center">
+                                        <img class="ms-auto" id="arrow-image" src="~/images/frecciaDestra.png" style="width: 25px; height: 25px; display:unset;" alt="modifica" />
                                     </td>
                                 </tr>
                             }

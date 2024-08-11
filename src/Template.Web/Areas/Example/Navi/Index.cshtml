@@ -51,7 +51,7 @@
                         {
                             @if (DateOnly.FromDateTime(@nave.Arrivo) == @arrivo.Arrivo)
                             {
-                                @if (@nave.Partenza <= DateTime.Now.AddDays(7))
+                                @if (@nave.Partenza < DateTime.Now)
                                 {
                                     <button class="card mb-3" onclick="redirectToEditNave('@nave.Id')" style="width:100%; background-color: #ffe9e9">
                                         <div class="card-header" style="width:100%; background-color: #ff5858">
@@ -65,7 +65,24 @@
                                             </blockquote>
                                         </div>
                                     </button>
-                                } else {
+                                }
+                                else if (@nave.Partenza <= DateTime.Now.AddDays(7) && @nave.Partenza >= DateTime.Now)
+                                {
+                                    <button class="card mb-3" onclick="redirectToEditNave('@nave.Id')" style="width:100%; background-color: #fff5cc">
+                                        <div class="card-header" style="width:100%; background-color: #ffe454">
+                                            @nave.Nome
+                                        </div>
+                                        <div class="card-body">
+                                            <blockquote class="blockquote mb-0">
+                                                <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                            </blockquote>
+                                        </div>
+                                    </button>
+                                }
+                                else if (@nave.Partenza > DateTime.Now.AddDays(7))
+                                {
                                     <button class="card mb-3" onclick="redirectToEditNave('@nave.Id')" style="width:100%; background-color: #f1f5ff">
                                         <div class="card-header" style="width:100%; background-color: #7096ff">
                                             @nave.Nome

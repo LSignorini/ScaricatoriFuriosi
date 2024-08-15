@@ -34,7 +34,7 @@
                 {
                     <div id="logout-button" class="ms-auto">
                         <a class="item fs-2" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
-                            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Esci"]
+                            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Logout"]
                         </a>
                         <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" display="none"></form>
                     </div>
@@ -92,7 +92,7 @@
                             <li id="logout-button" class="nav-item">
                                 <div>
                                     <a class="item" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
-                                        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Esci"]
+                                        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Logout"]
                                     </a>
                                     <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" display="none"></form>
                                 </div>

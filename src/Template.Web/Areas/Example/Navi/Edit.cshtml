@@ -59,10 +59,13 @@
 
 <div class="mx-3" v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
     <label class="fs-5">{{dataLavorazione.data}}</label>
-    <button style="float: right; margin-bottom: 10px"
+    @if (Model.Partenza >= DateTime.Now)
+    {
+        <button style="float: right; margin-bottom: 10px"
             v-on:click="redirectToEditOrari(model.id, dataLavorazione.data)">
-        <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
-    </button>
+            <img id="pencil-image" src="~/images/pencil.png" style="width: 30px; height: 30px;" alt="modifica" />
+        </button>   
+    }
     <label class="fs-5" style="float: right; margin-right: 15px;">Dipendenti rimanenti: {{model.dipendentiDisponibili[index].numero}}</label>
     <br />
     <table class="table" style="margin-bottom: 30px">

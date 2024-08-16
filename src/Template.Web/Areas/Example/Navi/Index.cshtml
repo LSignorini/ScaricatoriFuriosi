@@ -34,7 +34,7 @@
         </form>
     </nav>
 }
-<div>
+@* <div>
     <div class="container-fluid">
         <div class="row">
             <div>
@@ -98,6 +98,81 @@
                                 }
                             }
                         }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div> *@
+
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div>
+                @if (Model.Navi.Any() == false)
+                {
+                    <p colspan="3">Nessun elemento trovato con i filtri correnti</p>
+                }
+                else
+                {
+                    @foreach (var arrivo in Model.Arrivi)
+                    {
+                        <label class="fs-3 fw-bold mb-2 mt-3">@arrivo.Arrivo</label>
+                        <div class="row">
+                            @foreach (var nave in Model.Navi)
+                            {
+                                @if (DateOnly.FromDateTime(@nave.Arrivo) == @arrivo.Arrivo)
+                                {
+                                    <div class="col-6 mb-3">
+                                        @if (@nave.Partenza < DateTime.Now)
+                                        {
+                                            <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width: 100%; background-color: #ffe9e9">
+                                                <div class="card-header" style="width: 100%; background-color: #ff5858">
+                                                    @nave.Nome
+                                                </div>
+                                                <div class="card-body">
+                                                    <blockquote class="blockquote mb-0">
+                                                        <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                        <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                        <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                                    </blockquote>
+                                                </div>
+                                            </button>
+                                        }
+                                        else if (@nave.Partenza <= DateTime.Now.AddDays(7) && @nave.Partenza >= DateTime.Now)
+                                        {
+                                            <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width: 100%; background-color: #fff5cc">
+                                                <div class="card-header" style="width: 100%; background-color: #ffe454">
+                                                    @nave.Nome
+                                                </div>
+                                                <div class="card-body">
+                                                    <blockquote class="blockquote mb-0">
+                                                        <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                        <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                        <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                                    </blockquote>
+                                                </div>
+                                            </button>
+                                        }
+                                        else if (@nave.Partenza > DateTime.Now.AddDays(7))
+                                        {
+                                            <button class="card" onclick="redirectToEditNave('@nave.Id')" style="width: 100%; background-color: #f1f5ff">
+                                                <div class="card-header" style="width: 100%; background-color: #7096ff">
+                                                    @nave.Nome
+                                                </div>
+                                                <div class="card-body">
+                                                    <blockquote class="blockquote mb-0">
+                                                        <p style="text-align:start">Cliente: @nave.NomeCliente</p>
+                                                        <p style="text-align:start">Arrivo: @nave.Arrivo</p>
+                                                        <p style="text-align:start">Partenza: @nave.Partenza</p>
+                                                    </blockquote>
+                                                </div>
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
                     }
                 }
             </div>

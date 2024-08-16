@@ -4,15 +4,20 @@
     if (Model.Id == null)
     {
         ViewData["Title"] = "Recupero dettaglio nave fallito!";
+    } 
+    else
+    {
+        ViewData["Title"] = "Dettaglio Nave";
     }
 }
-@section pageTitle{
+@* @section pageTitle{
     <div class="navbar-brand text-truncate">
         @ViewData["Title"]
     </div>
-}
+} *@
 
 <div class="mx-3">
+    <h1 class="fs-5" style="color: #1554a3">@ViewData["Title"]</h1>
 
     <div class="container" style="margin-left: 0px; margin-bottom: 50px; margin-top: 20px">
         <h1 style="margin-bottom: 0px; padding-bottom: 0px">@Model.Nome</h1>

@@ -1,5 +1,6 @@
 ﻿@model Template.Web.Areas.Example.Dipendenti.EditViewModel
 @{
+    ViewData["Title"] = "Dettaglio Dipendente";
     ViewData["Id"] = Model.Id;
     ViewData["Dipendente"] = Model.Nome + " " + Model.Cognome;
     ViewData["Ruolo"] = Model.Ruolo;
@@ -10,6 +11,8 @@
 }
 
 <div class="container-fluid">
+    <h1 class="fs-5" style="color: #1554a3">@ViewData["Title"]</h1>
+
     <div class="row">
         <!-- Contenuto principale -->
         <div class="col-8">

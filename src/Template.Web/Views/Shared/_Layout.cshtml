@@ -24,10 +24,10 @@
             <div class="collapse navbar-collapse ms-3" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <a class="nav-link fs-2" href="/">Navi <span class="sr-only">(current)</span></a>
+                        <a id="navi_item" class="nav-link fs-2" href="/">Navi <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-2" href="/Example/Dipendenti">Dipendenti</a>
+                        <a id="dipendenti_item" class="nav-link fs-2" href="/Example/Dipendenti">Dipendenti</a>
                     </li>
                 </ul>
                 @if (identitaCorrente != null)
@@ -46,60 +46,26 @@
     @RenderSection("pageSubtitle", false)
     @RenderBody()
 </div>
-@section googlehead{
-    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-', { 'anonymize_ip': true });    // Ricordarsi di anonimizzare per fare ricadere il cookie tra quelli tecnici ed evitare l'obbligo del banner
-    </script>*@
-    }
 @section scripts{
     <script type="text/javascript">
-        @this.RenderAlertsWithToastify()
+@this.RenderAlertsWithToastify()
+</script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var currentUrl = window.location.pathname;
+        var idNavi = "navi_item";
+        var idDipendenti = "dipendenti_item";
+        var naviItem = document.getElementById(idNavi);
+        var dipendentiItem = document.getElementById(idDipendenti);
+
+        if (currentUrl === "/Example/Navi") {
+            naviItem.style.textDecoration = "underline";
+        } else if (currentUrl.includes("/Example/Dipendenti")) {
+            dipendentiItem.style.textDecoration = "underline";
+        }
+    });
     </script>
 
     @RenderSection("scripts", false)
 }
-
-
-
- <!--
-
- <nav id="nav" class="navbar navbar-expand-lg navbar-dark onit-page-menu">
-            <div class="container-fluid">
-                <div id="logo">
-                    <img id="logo-nave" alt="" src="/images/image.png" />
-                </div>
-                <div class="col-sm-auto">
-                    <a class="item" href="/">
-                        <p>Navi</p>
-                    </a>
-                </div>
-                <div class="col-sm-auto">
-                    <a class="item" href="/Example/Dipendenti">
-                        <p>Dipendenti</p>
-                    </a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse flex-wrap" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ms-auto onit-page-menu-user">
-                        @if (identitaCorrente != null)
-                        {
-                            <li id="logout-button" class="nav-item">
-                                <div>
-                                    <a class="item" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Chiudi sessione di lavoro"]">
-                                        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Logout"]
-                                    </a>
-                                    <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" display="none"></form>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
- -->

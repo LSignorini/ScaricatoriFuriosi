@@ -59,9 +59,9 @@
         var naviItem = document.getElementById(idNavi);
         var dipendentiItem = document.getElementById(idDipendenti);
 
-        if (currentUrl === "/Example/Navi") {
+        if (currentUrl == "/Example/Navi") {
             naviItem.style.textDecoration = "underline";
-        } else if (currentUrl.includes("/Example/Dipendenti")) {
+        } else if (currentUrl == "/Example/Dipendenti") {
             dipendentiItem.style.textDecoration = "underline";
         }
     });

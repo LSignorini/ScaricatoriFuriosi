@@ -10,11 +10,6 @@
         ViewData["Title"] = "Dettaglio Nave";
     }
 }
-@* @section pageTitle{
-    <div class="navbar-brand text-truncate">
-        @ViewData["Title"]
-    </div>
-} *@
 
 <div class="mx-3">
     <h1 class="fs-5" style="color: #1554a3">@ViewData["Title"]</h1>
@@ -63,7 +58,7 @@
 </div>
 
 <div class="mx-3" v-for="(dataLavorazione, index) in model.dateLavorazione" :key="dataLavorazione.data">
-    <label class="fs-5">{{dataLavorazione.data}}</label>
+    <label class="fs-5">{{ formatDate(dataLavorazione.data) }}</label>
     @if (Model.Partenza >= DateTime.Now)
     {
         <button style="float: right; margin-bottom: 10px"
@@ -118,6 +113,14 @@
             methods: {
                 redirectToEditOrari: function (idNave, giorno) {
                     window.location.href = "/Example/Orari/?Id=" + idNave + "&giorno=" + giorno;
+                },
+                // Funzione per formattare la data nel formato DD/MM/AAAA
+                formatDate: function (dateString) {
+                    const date = new Date(dateString); // Crea un oggetto Date da una stringa
+                    const day = String(date.getDate()).padStart(2, '0'); // Prendi il giorno, formato a 2 cifre
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); // Prendi il mese, formato a 2 cifre (gennaio è 0)
+                    const year = date.getFullYear(); // Prendi l'anno
+                    return `${day}/${month}/${year}`; // Restituisci il formato DD/MM/AAAA
                 }
             }
         });
